@@ -20,11 +20,23 @@ console.log(fileExtension);
 
 // Leer Archivo 
 
-let readFile = fs.readFile(textConsole, (error, data) =>{
+let readFile = fs.readFile(textConsole, 'utf-8', (error, data) =>{
  if(error) throw error;
- console.log(data);
+    console.log(data);
+    console.log(data.link);
 });
-// console.log(readFile);
+
+
+
+// const getLinks = (file) => {
+//      readFile.forEach((file) => {
+//          if ('https://' === 'https://'){
+//              console.log(file);
+//          }
+//      });
+//  };
+
+
 
 
 
