@@ -1,4 +1,28 @@
 {
-  "name": "md-links",
-  "version": "0.1.0"
+  "name": "md-linkscjl",
+  "version": "0.1.0",
+  "description": "Proyecto MD-Links Laboratoria SCL014",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CatalinaJL/SCL014-md-links.git"
+  },
+  "keywords": [
+    "md-links",
+    "md",
+    "npm",
+    "nodejs"
+  ],
+  "author": "Catalina Jara L.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CatalinaJL/SCL014-md-links/issues"
+  },
+  "homepage": "https://github.com/CatalinaJL/SCL014-md-links#readme"
 }
