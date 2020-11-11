@@ -1,4 +1,4 @@
-//Modulo debe Leer un directorio y su archivos md
+//Module should read directory, its files md and its links
 const fs = require('fs');
 const path = require('path');
 
@@ -12,14 +12,14 @@ const readDirMod = (pathDir) => {
         'utf-8',
         (error, files) => {
             if (error) {
-                paseMdFile(error);
+                paseMdFile(error, null, pathDir);
             }
             else {
                 const dataFiles = files;
                 const dataFilter = dataFiles.filter(file => {
                     return path.extname(file) === pathExtName;
                 })
-                paseMdFile(dataFilter);
+                paseMdFile(null, dataFilter, pathDir);
             }
         }
     )

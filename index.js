@@ -1,16 +1,18 @@
-// Modulo debe recibir y  Ejecutar mdLinks(path, options)
+// Module should get and start mdLinks(path, options)
 const { readFileMod } = require('./readFile-module');
 
+// Content path file or directory to parse
 const pathIn = process.argv[2];
+
+// Content option selected
 const optionIn = process.argv[3];
 
+// Fuction Read file 
 readFileMod(pathIn);
 
 /* module.exports = () => {
 
 }; */
-
-
 
 // CONSIDERAR
 // si el argumento en la posicion[2] no es una url 

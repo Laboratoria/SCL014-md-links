@@ -1,34 +1,40 @@
+//Module should parse md file read 
 
-module.exports = (error, data) => {
+module.exports = (error, data, pathFileParse) => {
     // console.log(error);
-    console.log(data);
+    // console.log(data);
 
-    /* const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm
+    // Md file contents
+    const mdContents = data.split('\n');
+    // Content new array from data
+    let arrayMdContent = [];
 
-    // Example md file contents
-    const mdContents = `
-Lorem ipsum dolor sit amet, consectetur adipiscing elit..
+    const regularExpMdLinks = /\[([^\[]+)\](\(.*\))/gm
+    const singleRegExpMatch = /\[([^\[]+)\]\((.*)\)/
 
-[hello link](/admin/table_edit/table_edit.cfm?action=edit&table_name=organizationsXcategories)
+    // Aplly Regular expression to data md
+    mdContents.forEach(lineData => {
+        const arrayLinksMdFile = lineData.match(regularExpMdLinks);
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit..
+        // console.log(arrayLinksMdFile);
+        if (arrayLinksMdFile !== null) {
+            arrayLinksMdFile.forEach(element => {
+                var text = singleRegExpMatch.exec(element);
+                if (text[2].includes('http://') || text[2].includes('https://')) {
+                    arrayMdContent.push({
+                        href: text[2],
+                        text: text[1],
+                        file: pathFileParse
+                    }) 
+                }            
 
-[otherLink](https://google.com)
+            });
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit..
+        }   
 
-[third link](https://google.com)
-`
+    });
 
-    const matches = mdContents.match(regexMdLinks)
-    console.log('links', matches)
-
-    const singleMatch = /\[([^\[]+)\]\((.*)\)/
-    for (var i = 0; i < matches.length; i++) {
-        var text = singleMatch.exec(matches[i])
-        console.log(`Match #${i}:`, text)
-        console.log(`Word  #${i}: ${text[1]}`)
-        console.log(`Link  #${i}: ${text[2]}`)
-    } */
+    console.log(arrayMdContent);
 };
 
+// https://davidwells.io/snippets/regex-match-markdown-links

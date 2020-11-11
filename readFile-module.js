@@ -1,4 +1,4 @@
-//Modulo debe Leer un archivo md y sus links
+//Module should read file md and its links
 const fs = require('fs');
 const path = require('path');
 
@@ -11,10 +11,10 @@ const readFileMod = (pathFile) => {
         'utf-8',
         (error, data) => {
             if (error) {
-                parseMdFile(error, null);
+                parseMdFile(error, null, pathFile);
             }
             else {                
-                parseMdFile(null, data.toString());
+                parseMdFile(null, data.toString(), pathFile);
             }
         }
     )
