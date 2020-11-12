@@ -10,10 +10,6 @@ const optionIn = process.argv[3];
 // Fuction Read file 
 readFileMod(pathIn);
 
-/* module.exports = () => {
-
-}; */
-
 // CONSIDERAR
 // si no recibe argumentos 
 // si  el archivo md  ingresado no se encuentra 

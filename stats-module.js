@@ -10,4 +10,5 @@ module.exports = (objectLinksValidate) => {
 
     console.log('Total: ' + arrayObjectLinks.length);
     console.log('Unique: ' + arrayWithoutDuplicate.length);
+
 };
