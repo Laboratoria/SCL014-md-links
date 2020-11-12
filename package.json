@@ -20,9 +20,15 @@
     "nodejs"
   ],
   "author": "Catalina Jara L.",
+  "bin": {
+    "md-link": "./index.js"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/CatalinaJL/SCL014-md-links/issues"
   },
-  "homepage": "https://github.com/CatalinaJL/SCL014-md-links#readme"
+  "homepage": "https://github.com/CatalinaJL/SCL014-md-links#readme",
+  "dependencies": {
+    "markdown-it": "^12.0.2"
+  }
 }

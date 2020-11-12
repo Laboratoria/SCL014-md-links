@@ -1,9 +1,12 @@
+#!/usr/bin/env node
+
 // module.exports = () => {
 //   // ...
 // };
 
 const fs = require('fs');
 const path = require('path');
+const MarkdownIt = require('markdown-it');
 
 /* Obtener información de linea de comando */
 let textConsole = process.argv[2];
@@ -18,38 +21,12 @@ console.log(pathAbsolute);
 let fileExtension= path.extname(textConsole);
 console.log(fileExtension);
 
+const regEx = /\[([^\[\]]*?)\]\((\S*?)\)/gsi;
 // Leer Archivo 
-
-let readFile = fs.readFile(textConsole, 'utf-8', (error, data) =>{
- if(error) throw error;
-    console.log(data);
-    console.log(data.link);
+let readFile= fs.readFile(textConsole, 'utf-8', (error, data) => {
+    if (error) throw error;
+    let dataFile = data;
+    console.log(dataFile);
+    let linkdData = dataFile.match(regEx);
+    console.log(linkdData);
 });
-
-
-
-// const getLinks = (file) => {
-//      readFile.forEach((file) => {
-//          if ('https://' === 'https://'){
-//              console.log(file);
-//          }
-//      });
-//  };
-
-
-
-
-
-
-// // Leer directorios y trae archivos del directorio!
-// fs.readdir(textConsole, (files) =>{
-//   files.forEach(file =>{
-//       console.log(file);
-//       console.log(path.extname(file));
-//   });
-// });
-
-// Obtener extension de path
-// console.log(path.extname(textConsole));
-
-
