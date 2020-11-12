@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // module.exports = () => {
 //   // ...
 // };
@@ -46,10 +48,10 @@ console.log("SCRIPT:", script_path);
 
 
 // //saquemos la ruta de usuario al archivo
- //let userPathToFile= process.argv[2];
- //console.log("PATH:", userPathToFile);
- //let firstOption = process.argv[3];
- //console.log("FIRST OP:" ,firstOption);
+ let userPathToFile= process.argv[2];
+ console.log("PATH:", userPathToFile);
+ let firstOption = process.argv[3];
+ console.log("FIRST OP:" ,firstOption);
  //let secondOption = process.argv[4];
  //console.log("SECOND OP:" ,secondOption);
 ////El path.normalize()método normaliza una ruta especificada.

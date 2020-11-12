@@ -15,6 +15,9 @@
   },
   "author": "marce ortega",
   "license": "ISC",
+  "bin": {
+    "md-link": "./index.js"
+  },
   "bugs": {
     "url": "https://github.com/marceortega/SCL014-md-links/issues"
   },
