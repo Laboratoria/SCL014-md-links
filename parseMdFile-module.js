@@ -1,5 +1,6 @@
-//Module should parse md file read 
+const validateModule = require('./validate-module.js');
 
+//Module should parse md file read 
 module.exports = (error, data, pathFileParse) => {
     // console.log(error);
     // console.log(data);
@@ -9,7 +10,8 @@ module.exports = (error, data, pathFileParse) => {
     // Content new array from data
     let arrayMdContent = [];
 
-    const regularExpMdLinks = /\[([^\[]+)\](\(.*\))/gm
+    // const regularExpMdLinks = /\[([^\[]+)\](\(.*\))/gm
+    const regularExpMdLinks = /\[([^\[\]]*?)\]\((\S*?)\)/gsi
     const singleRegExpMatch = /\[([^\[]+)\]\((.*)\)/
 
     // Aplly Regular expression to data md
@@ -19,7 +21,9 @@ module.exports = (error, data, pathFileParse) => {
         // console.log(arrayLinksMdFile);
         if (arrayLinksMdFile !== null) {
             arrayLinksMdFile.forEach(element => {
+                // Aplly Regular expression every part
                 var text = singleRegExpMatch.exec(element);
+                // Get URL with protocol  http and https and push new objects array
                 if (text[2].includes('http://') || text[2].includes('https://')) {
                     arrayMdContent.push({
                         href: text[2],
@@ -34,7 +38,5 @@ module.exports = (error, data, pathFileParse) => {
 
     });
 
-    console.log(arrayMdContent);
+    validateModule(arrayMdContent);
 };
-
-// https://davidwells.io/snippets/regex-match-markdown-links

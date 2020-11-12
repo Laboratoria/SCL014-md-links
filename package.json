@@ -2,6 +2,7 @@
   "name": "md-links",
   "version": "0.1.0",
   "dependencies": {
-    "markdown-it": "^12.0.2"
+    "markdown-it": "^12.0.2",
+    "node-fetch": "^2.6.1"
   }
 }

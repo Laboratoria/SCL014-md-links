@@ -15,6 +15,8 @@ readFileMod(pathIn);
 }; */
 
 // CONSIDERAR
+// si no recibe argumentos 
+// si  el archivo md  ingresado no se encuentra 
 // si el argumento en la posicion[2] no es una url 
 // si el arqumento en la posicion[3] no es validate ni stats
 // si la ruta es un directorio 
