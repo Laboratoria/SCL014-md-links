@@ -1,4 +1,27 @@
 {
-  "name": "md-links",
-  "version": "0.1.0"
+  "name": "naterayc-md-links",
+  "version": "0.1.1",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  },
+  "description": "md-links",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naterayc/SCL014-md-links.git"
+  },
+  "keywords": [],
+  "author": "Yndira Natera",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/naterayc/SCL014-md-links/issues"
+  },
+  "homepage": "https://github.com/naterayc/SCL014-md-links#readme"
 }
