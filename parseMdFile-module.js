@@ -1,4 +1,4 @@
-const validateModule = require('./validate-module.js');
+const validateModule = require('./validate-module.js'); 
 
 //Module should parse md file read 
 module.exports = (error, data, pathFileParse) => {
@@ -29,14 +29,15 @@ module.exports = (error, data, pathFileParse) => {
                         href: text[2],
                         text: text[1],
                         file: pathFileParse
-                    }) 
-                }            
+                    })
+                }
 
             });
 
-        }   
+        }
 
     });
 
     validateModule(arrayMdContent);
+
 };
