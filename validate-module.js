@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const objectLinks = require('./objectLinks-module.js');
-const statsModule = require('./stats-module.js');
+const statsModule = require('./validateStats-module.js');
 
 //Module should validate links from md file read
 module.exports = (arrayMdContent) => {

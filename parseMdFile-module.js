@@ -1,4 +1,5 @@
 const validateModule = require('./validate-module.js'); 
+const statsModule = require('./stats-module.js'); 
 
 //Module should parse md file read 
 module.exports = (error, data, pathFileParse) => {
@@ -39,5 +40,5 @@ module.exports = (error, data, pathFileParse) => {
     });
 
     validateModule(arrayMdContent);
-
+    statsModule(arrayMdContent);
 };
