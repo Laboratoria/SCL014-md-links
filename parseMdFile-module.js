@@ -1,8 +1,8 @@
-const validateModule = require('./validate-module.js'); 
-const statsModule = require('./stats-module.js'); 
+const validateModule = require('./validate-module.js');
+const statsModule = require('./stats-module.js');
 
 //Module should parse md file read 
-module.exports = (error, data, pathFileParse) => {
+module.exports = (data, pathFileParse) => {
     // console.log(error);
     // console.log(data);
 
@@ -11,7 +11,6 @@ module.exports = (error, data, pathFileParse) => {
     // Content new array from data
     let arrayMdContent = [];
 
-    // const regularExpMdLinks = /\[([^\[]+)\](\(.*\))/gm
     const regularExpMdLinks = /\[([^\[\]]*?)\]\((\S*?)\)/gsi
     const singleRegExpMatch = /\[([^\[]+)\]\((.*)\)/
 
@@ -38,7 +37,7 @@ module.exports = (error, data, pathFileParse) => {
         }
 
     });
-
-    validateModule(arrayMdContent);
-    statsModule(arrayMdContent);
+    return arrayMdContent;
+    /* validateModule(arrayMdContent);
+    statsModule(arrayMdContent); */
 };

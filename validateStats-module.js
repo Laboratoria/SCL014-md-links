@@ -13,7 +13,6 @@ module.exports = (objectLinksValidate) => {
         return object.status === 404;
     })
  
-
     console.log('MÓDULE --VALIDATE --STATS');
     console.log('Total: ' + arrayObjectLinks.length);
     console.log('Unique: ' + arrayWithoutDuplicate.length);
