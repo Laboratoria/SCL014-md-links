@@ -1,5 +1,5 @@
 {
-  "name": "md-links",
+  "name": "md-links-danielablancom",
   "version": "0.1.0",
   "dependencies": {
     "chalk": "^4.1.0",
@@ -8,6 +8,27 @@
     "markdown-it": "^12.0.2",
     "marked": "^1.2.3",
     "node-dir": "^0.1.17",
+    "node-fetch": "^2.6.1",
     "progress": "^2.0.3"
-  }
+  },
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielablancom/SCL014-md-links.git"
+  },
+  "keywords": [],
+  "author": "Daniela Blanco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danielablancom/SCL014-md-links/issues"
+  },
+  "homepage": "https://github.com/danielablancom/SCL014-md-links#readme"
 }

@@ -1,6 +1,7 @@
 module.exports = () => {
   // ...
 };
+
 const marked = require('marked');
 let dir = require('node-dir');
 const fs = require('fs');
@@ -56,8 +57,8 @@ const readFiles = (pathFile) => {
 
 // readFiles(path)
 
-
-const principalFunction = (route) => {
+// Funcion principal que confirma existencia de ruta y directorio
+const Function = (route) => {
 
   if (fs.existsSync(route)) {
     console.log('La ruta existe')
