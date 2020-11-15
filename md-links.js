@@ -1,10 +1,12 @@
 const fs = require('fs');
 const path = require('path');
+const { argv } = require('yargs')
 const verifyRoute = require('./verifyRoute');
 const verifyDir = require('./verifyDir');
 const readDir = require('./readDir');
 const readFile = require('./readFile');
 const validate = require('./validate');
+const stats = require('./stats');
 
 module.exports = (pathname, callback) => {
 
@@ -23,13 +25,23 @@ module.exports = (pathname, callback) => {
                     readFile(file, route)
                       .then(data => {
                         console.log(process.argv[3])
-                        if (process.argv[3] === '--validate') {
+                        if (argv.validate && argv.stats ===undefined|| argv.v && argv.s === undefined) {
                           validate(data)
                             .then(validatedData => {
-                              console.log(validatedData);
+                              validatedData.forEach(link => {
+                                console.log(pathname, link.href, link.texto, link.status, link.statusText);
+                              })
                             })
                             .catch(error => console.log(error))
-                        } if (process.argv[3] === undefined) {
+                        }
+                        if (argv.stats && argv.validate === undefined || argv.s && argv.v === undefined) {
+                          stats(data)
+                        }
+                        if (argv.stats && argv.validate || argv.s && argv.v) {
+                          validate(data);
+                          stats(data)
+                        }
+                        if (process.argv[3] === undefined) {
                           console.log(data);
                         }
                       })
@@ -51,12 +63,20 @@ module.exports = (pathname, callback) => {
                   if (process.argv[3] === undefined) {
                     console.log(data);
                   }
-                  if (process.argv[3] === '--validate') {
+                  if (argv.stats && argv.validate === undefined || argv.s && argv.v === undefined) {
+                    stats(data)
+                  }
+                  if (argv.validate && argv.stats === undefined || argv.v && argv.s === undefined) {
                     validate(data)
                       .then(validatedData => {
-                        console.log(validatedData);
+                        validatedData.forEach(link => {
+                          console.log(pathname, link.href, link.texto, link.status, link.statusText);
+                        })
                       })
                       .catch(error => console.log(error))
+                  }
+                  if (argv.validate && argv.stats || argv.v && argv.s) {
+                    stats(data);
                   }
                 })
                 .catch(error => console.log(error))
