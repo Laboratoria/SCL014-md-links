@@ -3,24 +3,24 @@ const validate = require('./validate');
 
 module.exports = (data) => {
     let uniqueLinks = [];
-    let brokenLinks = [];
+    let brokenLinks = 0;
     let statusOK = 200;
     console.log('Total links:', data.length)
 
     validate(data)
         .then(validatedData => {
             validatedData.forEach(link => {
-                if (!uniqueLinks.includes(link.href)) {
-                    return uniqueLinks.push(link.href)
+                 if (link.status !== statusOK) {
+                    return brokenLinks++;
                 }
-                 if (!link.status != statusOK) {
-                    return brokenLinks.push(link.status)
-                } 
+                if (!uniqueLinks.includes(link.href)) {
+                    return uniqueLinks.push(link.href);
+                }  
             })
             console.log('Unique links:', uniqueLinks.length);
 
             if (argv.validate || argv.v){
-            console.log('Broken links:', brokenLinks.length);
+            console.log('Broken links:', brokenLinks);
             } 
         })
         .catch((err) => {
