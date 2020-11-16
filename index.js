@@ -1,7 +1,7 @@
 module.exports = () => {
   // ...
 };
-
+const fetch = require('node-fetch');
 const marked = require('marked');
 let dir = require('node-dir');
 const fs = require('fs');
@@ -9,6 +9,7 @@ const path = require('path');
 const { Console } = require('console');
 let pathC = process.argv[2];
 pathC = path.normalize(path.resolve(pathC));
+//const validateLinks = require("./md-links");
 
 // lee archivos en directorio, muestra array con archivos existentes dentro y los que tienen extension ".md"
 
@@ -46,7 +47,7 @@ const readDir = (__dirname => {
 
 const readFiles = (pathFile) => {
   return new Promise((resolve, reject) => {
-    fs.readFile(pathFile, 'utf8', (err, data) => {        
+    fs.readFile(pathFile, 'utf8', (err, data) => {
       if (err) {
         reject(err)
       }
@@ -58,7 +59,7 @@ const readFiles = (pathFile) => {
 // readFiles(path)
 
 // Funcion principal que confirma existencia de ruta y directorio
-const Function = (route) => {
+const validatePathAndDirectory = (route) => {
 
   if (fs.existsSync(route)) {
     console.log('La ruta existe')
@@ -95,32 +96,59 @@ const Function = (route) => {
   }
 }
 
-principalFunction(pathC)
+validatePathAndDirectory(pathC)
 
 
 
 const gettingLinks = (textFile, file) => {
- 
+
   let arrayLinks = [];
+
   const renderer = new marked.Renderer();
 
   renderer.link = (href, title, text) => {
+
     if (!href.startsWith('#')) {
       arrayLinks.push({ href, text, file });
-      // console.log(arrayLinks)
-
+      // console.log(arrayLinks)   
     }
   }
-
   marked(textFile, { renderer });
 
-  return arrayLinks;
- 
+  //return arrayLinks;
+  validateLinksAll(arrayLinks)
 
 }
 
+const validateLinksAll = (validateLinks) => {
+  const linksValidateWithFetch = validateLinks.map((element) => {
+    return fetch(element.href)
+      .then((res) => {
+        return {
+          href: res.url,
+          text: element.text,
+          file: element.file,
+          status: res.status,
+          statusText: res.statusText,
+        }
+      });
+
+  });
 
 
+  Promise.all(linksValidateWithFetch)
+
+    .then(resp => {
+      resp.forEach(element => {
+
+        console.log((element.file + element.href), (element.status + '\n'), (element.statusText + '\n') + element.text);
+
+      });
+      stats(validateLinks)
+
+    })
+
+}
 
 
 
