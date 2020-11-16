@@ -51,25 +51,35 @@ module.exports = (filePathmdarray) => {
 
 
     function getHttp(link) {
-        axios.get(link)
-            .then(response => {
-
-                //console.log(response.data.explanation);
-                console.log("-------");
-                console.log(response.status);
-                //console.log(response);
-                console.log("-------");
-            })
-            .catch(error => {
-                console.log(error);
-            });
 
 
+        if (link.startsWith("http")) {
+
+            axios.get(link)
+                .then(response => {
+                    console.log("-------");
+                    console.log(response.status);
+                    //console.log(response);
+                    console.log("-------");
+                })
+                .catch(error => {
+                    console.log("****************************");
+                    console.log(error.response.status);
+                    console.log("****************");
+                });
 
 
+        } else {
 
+            console.log("link es un about");
 
+        }
     }
+
+
+
+
+
 
 
 };

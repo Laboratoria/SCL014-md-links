@@ -22,10 +22,10 @@
 ## 2. IMAGEN FINAL DEL PRODUCTO
 
 Versión Mobile
-![mobile]( https://raw.githubusercontent.com/mcmacarena/SCL014-social-network/master/src/img/mobile.png)
+[mobile]( https://raw.githubusercontent.com/mcmacarena/SCL014-social-network/master/src/img/mobilae.png)
 
 Versión Desktop
-![desktop]( https://github.com/mcmacarena/SCL014-social-network/blob/master/src/img/desktop.png)
+[desktop]( https://github.com/mcmacarena/SCL014-social-network/blob/master/src/img/desktop.png)
 
 
 ## 3. INVESTIGACIÓN UX.
