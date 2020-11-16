@@ -1,7 +1,7 @@
-const { info } = require('console');
 const fs = require('fs');
 const { JSDOM } = require('jsdom');
 let md = require('markdown-it')();
+const axios = require('axios');
 
 module.exports = (filePathmdarray) => {
 
@@ -26,7 +26,6 @@ module.exports = (filePathmdarray) => {
     function showLinks2(data, filePathmd) {
         const files = md.render(data.toString());
         const dom = new JSDOM(files);
-
         const listNode = dom.window.document.querySelectorAll('a');
         const arrayListNode = Array.from(listNode);
         const infoArray = new Array;
@@ -42,17 +41,38 @@ module.exports = (filePathmdarray) => {
 
         });
         console.log(infoArray);
+        infoArray.forEach(enlace => {
+            console.log(enlace.href)
+            getHttp(enlace.href)
+
+        });
+
+    };
+
+
+    function getHttp(link) {
+        axios.get(link)
+            .then(response => {
+
+                //console.log(response.data.explanation);
+                console.log("-------");
+                console.log(response.status);
+                //console.log(response);
+                console.log("-------");
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
+
+
+
+
+
     }
 
 
-
-
-
-}
-
-
-
-
+};
 
 
 
