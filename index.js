@@ -35,22 +35,25 @@ readFileMod(pathIn)
         else if (argumentOption === '--stats') {
             statsModule(arrayLinks, argumentOption);
         }else if (argumentOption === '--stats --validate' || argumentOption === '--validate --stats') {
-            validateStatsModule(arrayLinks, argumentOption);
+            validateModule(arrayLinks, argumentOption);
         }
-        console.log('hola');
+   
     })
     ;
 
 //PENDIENTES:
-// Independizar impresion en consola.
 //Reconoce rutas absolutas y relativas. 
 //Leer un directorio 
-//aceptar argumento via consola
 //Instalable via CLI
 //Crear mi libreria.
 //Se puede requerir. 
 // hacer test
 // truncar  ruta 50 caracteres.
+
+
+//LISTOS 
+// Independizar impresion en consola. OK
+//aceptar argumento via consola. OK
 
 // CONSIDERAR
 // si no recibe argumentos 

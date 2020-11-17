@@ -10,12 +10,10 @@ module.exports = (objectLinksValidate, option) => {
     const arrayWithoutDuplicate = Array.from(arrayObjectLinkString).map(obj => JSON.parse(obj));
 
     // Array links Broken
-    const arrayBrokenLinks = arrayWithoutDuplicate.filter(object => {
+    const arrayBrokenLinks = arrayObjectLinks.filter(object => {
         return object.status === 404;
     });
-    /* console.log('Broken tooooo: ' + arrayWithoutDuplicate);
-    console.log('Broken teeeee: ' + arrayBrokenLinks);
-  */
+
     const arrayReturn = {
         total: arrayObjectLinks,
         unique: arrayWithoutDuplicate,
@@ -24,3 +22,8 @@ module.exports = (objectLinksValidate, option) => {
     printModule(arrayReturn, option);
 
 };
+
+/* for(var property in obj) {
+    alert(property + "=" + obj[property]);
+}
+ */
