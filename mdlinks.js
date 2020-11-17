@@ -2,22 +2,30 @@ const fs = require('fs');
 const { JSDOM } = require('jsdom');
 let md = require('markdown-it')();
 const axios = require('axios');
+const { info } = require('console');
 
-module.exports = (filePathmdarray) => {
+module.exports = (filePathmdarray, validate, stats) => {
+
+    const infoArray = new Array;
 
     filePathmdarray.forEach(path => readFile(path));
 
+
+    function resultsTable(data, validate) {
+        let headers = ['ruta', 'links', 'texto']
+        console.log(headers);
+    };
 
     function readFile(filePathmd) {
         //Funcion que lee el archivo
         fs.readFile(filePathmd, 'utf-8', (err, data) => {
             if (err) {
                 console.log('error :', err);
-                return false;
+
             } else {
                 console.log('Contiene un archivo');
                 console.log(showLinks2(data, filePathmd));
-                return true;
+
             }
         });
     };
@@ -28,61 +36,58 @@ module.exports = (filePathmdarray) => {
         const dom = new JSDOM(files);
         const listNode = dom.window.document.querySelectorAll('a');
         const arrayListNode = Array.from(listNode);
-        const infoArray = new Array;
+
         let objectArray = new Object;
         arrayListNode.map((a) => {
             objectArray = {
                 href: a.href,
                 text: a.text,
                 file: filePathmd
-
             }
             infoArray.push(objectArray);
 
         });
-        console.log(infoArray);
         infoArray.forEach(enlace => {
-            console.log(enlace.href)
+            console.log(enlace)
             getHttp(enlace.href)
 
+
         });
+        printResultsTable();
 
     };
 
-
     function getHttp(link) {
-
-
         if (link.startsWith("http")) {
-
             axios.get(link)
                 .then(response => {
-                    console.log("-------");
                     console.log(response.status);
-                    //console.log(response);
-                    console.log("-------");
+                    return response.status;
                 })
                 .catch(error => {
-                    console.log("****************************");
                     console.log(error.response.status);
-                    console.log("****************");
-                });
-
-
+                    return error.response.status;
+                })
         } else {
-
-            console.log("link es un about");
+            return ("link es un about");
 
         }
     }
 
+    function printResultsTable() {
+        console.table(infoArray);
 
 
 
 
-
+    };
 
 };
+
+
+
+
+
 
 
 
