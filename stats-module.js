@@ -1,15 +1,18 @@
+const printModule = require('./printConsole-module.js');
 //Module should get stats from links parsed
 
-module.exports = (objectLinks) => {
+module.exports = (objectLinks, option) => {
 
     const arrayObjectLinks = objectLinks;
     // Stringify object 
-    const arrayObjectLinkString = new Set(arrayObjectLinks.map(JSON.stringify))
+    const arrayObjectLinkString = new Set(arrayObjectLinks.map( obj =>JSON.stringify(obj)));
     // Array Without Duplicate
-    const arrayWithoutDuplicate = Array.from(arrayObjectLinkString).map(JSON.parse);
+    const arrayWithoutDuplicate = Array.from(arrayObjectLinkString).map(obj =>JSON.parse(obj));
     
-    console.log('MÓDULE  --STATS');
-    console.log('Total: ' + arrayObjectLinks.length);
-    console.log('Unique: ' + arrayWithoutDuplicate.length);
-
+    const arrayReturn = {
+        total: arrayObjectLinks,
+        unique:arrayWithoutDuplicate
+    };
+    printModule(arrayReturn, option);
+  
 };

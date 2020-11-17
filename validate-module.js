@@ -1,9 +1,9 @@
 const fetch = require('node-fetch');
-
+const printModule = require('./printConsole-module.js');
 const statsModule = require('./validateStats-module.js');
 
 //Module should validate links from md file read
-module.exports = (arrayMdContent) => {
+module.exports = (arrayMdContent, option) => {
     const arrayObjectLinksContent = []
 
     const arrayLinks = arrayMdContent;
@@ -20,12 +20,8 @@ module.exports = (arrayMdContent) => {
             });
     })
     Promise.all(validateObj).then(resp => {
-        resp.forEach(link => {
-            // console.log(link);            
-            console.log(link.file + ' ' + link.href + ' ' + link.status + ' ' + link.statusText + ' ' + link.text);
-        });
-
-        statsModule(resp);
+        statsModule(resp, option);        
+        //return resp;
 
     }).catch(reason => {
         console.log(reason)
