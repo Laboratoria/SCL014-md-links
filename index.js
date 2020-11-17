@@ -40,7 +40,6 @@ pathMmodule(pathIn).then(resp=>{
 //README del proyecto 
 // Se debe ejecuta md-links <path-to-file> [options] === revisar argumentos
 //Reconoce rutas absolutas y relativas. 
-//Leer un directorio 
 //Instalable via CLI
 //Crear mi libreria.
 //Se puede requerir. 
@@ -51,6 +50,7 @@ pathMmodule(pathIn).then(resp=>{
 //LISTOS 
 // Independizar impresion en consola. OK
 //aceptar argumento via consola. OK
+//Leer un directorio . OK
 
 // TEST
 // Simular que no recibe argumentos 

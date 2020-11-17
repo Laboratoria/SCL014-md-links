@@ -10,11 +10,12 @@ module.exports= (pathGive, argumentOption) =>{
     })
     .then(arrayLinks => {
         if (argumentOption === '--validate') {
-            validateModule(arrayLinks, argumentOption);        }  
+            validateModule(arrayLinks, argumentOption, pathGive);
+        }  
         else if (argumentOption === '--stats') {
-            statsModule(arrayLinks, argumentOption);
+            statsModule(arrayLinks, argumentOption, pathGive);
         }else if (argumentOption === '--stats --validate' || argumentOption === '--validate --stats') {
-            validateModule(arrayLinks, argumentOption);
+            validateModule(arrayLinks, argumentOption, pathGive);
         }
    
     }).catch(error =>{

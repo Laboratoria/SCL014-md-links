@@ -1,7 +1,7 @@
 const printModule = require('./printConsole-module.js');
 //Module should get stats from links parsed
 
-module.exports = (objectLinksValidate, option) => {
+module.exports = (objectLinksValidate, option, pathGive) => {
 
     const arrayObjectLinks = objectLinksValidate;
     // Stringify object 
@@ -19,7 +19,7 @@ module.exports = (objectLinksValidate, option) => {
         unique: arrayWithoutDuplicate,
         broken: arrayBrokenLinks
     };
-    printModule(arrayReturn, option);
+    printModule(arrayReturn, option, pathGive);
 
 };
 
