@@ -1,39 +1,30 @@
+const { rejects } = require('assert');
 const fs = require('fs');
-const pathIngresada = process.argv[2];
-path = "/Users/divyarani/Documents/geekforgeeks/geeks.js"
-  
-// Use stat() method 
-fs.stat(pathIngresada, (err, stats) => { 
-  if( !err ){ 
-       if(stats.isFile()){ 
-           console.log('is file ? ' + stats.isFile()); 
-       } 
-  
-       else if(stats.isDirectory()){ 
-           console.log('is directory? ' + stats.isDirectory()); 
-       } 
-   } 
-   else
-      throw err;  
-}); 
+const { resolve } = require('path');
 
-/* module.exports = ()=>{
-    const fs = require('fs');
-    const pathIngresada = process.argv[2];
-    const path = "/Users/divyarani/Documents/geekforgeeks/geeks.js"
-      
+// Module should get if it has recived a file or directory
+module.exports = (pathIngresada) => {
     // Use stat() method 
-    fs.stat(pathIngresada, (err, stats) => { 
-      if( !err ){ 
-           if(stats.isFile()){ 
-               console.log('is file ? ' + stats.isFile()); 
-           } 
-      
-           else if(stats.isDirectory()){ 
-               console.log('is directory? ' + stats.isDirectory()); 
-           } 
-       } 
-       else
-          throw err;  
-    }); 
-}; */
+    return new Promise((resolve, rejects)  =>{
+        fs.stat(
+            pathIngresada, 
+            (err, stats) => {
+            if (!err) {
+                resolve({
+                    typePathFile: stats.isFile(),
+                    typePathDir:  stats.isDirectory()
+                }) 
+                /* if (stats.isFile()) {
+                    console.log('is file ? ' + stats.isFile());
+                }
+    
+                else if (stats.isDirectory()) {
+                    console.log('is directory? ' + stats.isDirectory()); 
+                }*/
+            }
+            else
+                rejects(err);
+        });
+    })
+    
+}; 

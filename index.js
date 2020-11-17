@@ -1,10 +1,7 @@
 // Module should get and start mdLinks(path, options)
-const { readFileMod } = require('./readFile-module');
-const parseMdFile = require('./parseMdFile-module.js');
-const validateModule = require('./validate-module.js');
-const statsModule = require('./stats-module.js');
-const validateStatsModule = require('./validateStats-module.js');
-const printModule = require('./printConsole-module.js');
+const { readDirMod } = require('./readDir-module.js');
+const pathMmodule = require('./path-module.js');
+const readFileFunction = require('./readFileFunction-module.js');
 
 // Content path file or directory to parse
 const pathIn = process.argv[2];
@@ -23,25 +20,25 @@ const optionIn = () => {
 const argument = optionIn();
 const argumentOption =argument.arg;
 
-// Fuction Read file 
-readFileMod(pathIn)
-    .then(dataObject => {
-        return parseMdFile(dataObject, pathIn);
-    })
-    .then(arrayLinks => {
-        if (argumentOption === '--validate') {
-            validateModule(arrayLinks, argumentOption);
-        }  //return validateModule(arrayLinks)
-        else if (argumentOption === '--stats') {
-            statsModule(arrayLinks, argumentOption);
-        }else if (argumentOption === '--stats --validate' || argumentOption === '--validate --stats') {
-            validateModule(arrayLinks, argumentOption);
-        }
-   
-    })
-    ;
+// Function should Read file or directory and executed each module
+pathMmodule(pathIn).then(resp=>{
+    if(resp.typePathFile === true && resp.typePathDir === false){
+        readFileFunction(pathIn, argumentOption);
+    } else if(resp.typePathDir === true && resp.typePathFile === false){
+        readDirMod(pathIn).then(resp=>{
+            resp.forEach(fileMd => {             
+                readFileFunction(pathIn + fileMd, argumentOption);
+            });
+        })
+    }
+
+});
+
 
 //PENDIENTES:
+// Ver manejo de errores en promesas 
+//README del proyecto 
+// Se debe ejecuta md-links <path-to-file> [options] === revisar argumentos
 //Reconoce rutas absolutas y relativas. 
 //Leer un directorio 
 //Instalable via CLI
@@ -54,6 +51,12 @@ readFileMod(pathIn)
 //LISTOS 
 // Independizar impresion en consola. OK
 //aceptar argumento via consola. OK
+
+// TEST
+// Simular que no recibe argumentos 
+// simular que recibe otro tipo de argumento 
+// simular que la ruta no existe 
+
 
 // CONSIDERAR
 // si no recibe argumentos 
