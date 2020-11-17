@@ -11,58 +11,59 @@ const stats = require('./stats');
 module.exports = (pathname, callback) => {
 
   let route = path.resolve(pathname);
-  
+  let par;
+
   verifyRoute(pathname, callback)
     .then(verifyDir)
     .then(isDirectory => {
       if (isDirectory) {
-        console.log('es un directorio, abrelo');
         readDir(route)
-          .then(data => {
+          .then((data) => {
             data.forEach((file) => {
               let extFile = path.extname(file);
               if (extFile === '.md') {
-                console.log(file);
-                readFile(file, route)
-                  .then(data => {
-                    console.log(process.argv[3])
-                    if (argv.validate && argv.stats === undefined || argv.v && argv.s === undefined) {
-                      validate(data)
-                        .then(validatedData => {
-                          validatedData.forEach(link => {
-                            console.log(pathname, link.href, link.texto, link.status, link.statusText);
-                          })
-                        })
-                        .catch(error => console.log(error))
-                    }
-                    if (argv.stats && argv.validate === undefined || argv.s && argv.v === undefined) {
-                      stats(data)
-                    }
-                    if (argv.stats && argv.validate || argv.s && argv.v) {
-                      validate(data);
-                      stats(data)
-                    }
-                    if (process.argv[3] === undefined) {
-                      console.log(data);
-                    }
-                  })
-                  .catch(error => console.log(error))
-              } else {
-                console.log('no hay archivos .md')
+                par = {file, route};
               }
             })
+            return readFile(par)
           })
-          .catch(error => console.log(error));
-      }
-      else {
-        console.log('es un archivo, leelo');
+          .then(data => {
+            if (argv.validate && argv.stats === undefined || argv.v && argv.s === undefined) {
+              return validate(data)
+                .then(validatedData => {
+                  validatedData.forEach(link => {
+                    console.log(pathname, link.href, link.texto, link.status, link.statusText);
+                  })
+                })
+                .catch(error => console.log(error))
+            }
+            if (argv.stats && argv.validate === undefined || argv.s && argv.v === undefined) {
+              stats(data)
+            }
+            if (argv.stats && argv.validate || argv.s && argv.v) {
+              validate(data)
+              stats(data)
+            }
+            if (process.argv[3] === undefined) {
+              data.forEach(link => {
+                console.log(pathname, link.href, link.text);
+              })
+            } else {
+              console.log('no hay archivos .md')
+            }
+          })
+          .catch(error => console.log(error))
+      } else {
         let fileExt = path.extname(route);
         if (fileExt === '.md') {
-          readFile(route, route)
+          let file = route;
+          par = {file, route};
+          readFile(par)
             .then(data => {
-              console.log(process.argv[3])
               if (process.argv[3] === undefined) {
-                console.log(data);
+                data.forEach(link => {
+                  console.log(pathname, link.href, link.text);
+                })
               }
               if (argv.stats && argv.validate === undefined || argv.s && argv.v === undefined) {
                 stats(data)

@@ -3,8 +3,8 @@ const regEx = /\(https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*\)/gi;
 const regExText = /\[(\w.*?)]\(h|\[(`\w.*?`)]\(h/gi;
 const regExAll = /\[(\w.*?)]\(https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*\)|\[(`\w.*?`)]\(https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*\)/gi;
 
-module.exports = (file, route) => new Promise((resolve, reject) => {
-    fs.readFile(file, "utf-8", (error, file) => {
+module.exports = (par) => new Promise((resolve, reject) => {
+    fs.readFile(par.file, "utf-8", (error, file) => {
         if (error) {
             reject(error);
         } else {
@@ -15,12 +15,12 @@ module.exports = (file, route) => new Promise((resolve, reject) => {
                 arrAll.forEach(link => {
                     let links = link.match(regEx).toString().replace(/\(|\)/gi, '');
                     let text = link.match(regExText).toString().replace(/\[`|\`]\(h|\[|\]\(h/gi, '');
-                    let objectLinks = { 'href': links, 'text': text, 'file': route };
+                    let objectLinks = { 'href': links, 'text': text, 'file': par.route };
                     arrLinks.push(objectLinks);
                 })
-                resolve(arrLinks)
+                return resolve(arrLinks)
             } else {
-                console.log('No se encontraron links');
+                return console.log('No se encontraron links');
             }
         }
     })
