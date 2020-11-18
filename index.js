@@ -1,9 +1,5 @@
 // Module should get and start mdLinks(path, options)
-const path = require('path');
 const pathModule = require('./path-module.js');
-const readFileAndReturnArray = require('./readFileAndReturnArray.js');
-const readDirectoryAndReturnArray = require('./readDirectoryAndReturnArray');
-const printValidateAndStatFunction = require('./printValidateAndStatFunction.js');
 const printArrayLinks = require('./printArrayLinks.js');
 const checkIfItIsFileOrDirectory = require('./checkIfItIsFileOrDirectory.js');
 
