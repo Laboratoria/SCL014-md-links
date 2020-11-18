@@ -35,6 +35,4 @@ module.exports = (data, pathFileParse) => {
 
     });
     return arrayMdContent;
-    /* validateModule(arrayMdContent);
-    statsModule(arrayMdContent); */
 };

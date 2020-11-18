@@ -2,7 +2,6 @@
 const fs = require('fs');
 const path = require('path');
 
-
 //  Read file and get data
 const readFileMod = (pathFile) => {
     return new Promise((resolve, reject) => {

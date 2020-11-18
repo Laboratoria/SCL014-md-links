@@ -1,5 +1,4 @@
 //Module should read directory, its files md and its links
-const { rejects } = require('assert');
 const fs = require('fs');
 const path = require('path');
 

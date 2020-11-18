@@ -1,8 +1,12 @@
 // Module should get and start mdLinks(path, options)
 const path = require('path');
-const { readDirMod } = require('./readDir-module.js');
-const pathMmodule = require('./path-module.js');
-const readFileFunction = require('./readFileFunction-module.js');
+const pathModule = require('./path-module.js');
+const readFileAndReturnArray = require('./readFileAndReturnArray.js');
+const readDirectoryAndReturnArray = require('./readDirectoryAndReturnArray');
+const printValidateAndStatFunction = require('./printValidateAndStatFunction.js');
+const printArrayLinks = require('./printArrayLinks.js');
+const checkIfItIsFileOrDirectory = require('./checkIfItIsFileOrDirectory.js');
+
 
 // Content path file or directory to parse
 const pathIn = process.argv[2];
@@ -23,23 +27,10 @@ const argument = optionIn();
 const argumentOption = argument.arg;
 
 // Function should Read file or directory and executed each module
-pathMmodule(pathIn).then(resp => {
-    if (resp.typePathFile === true && resp.typePathDir === false) {
-        readFileFunction(pathIn, argumentOption);
-    } else if (resp.typePathDir === true && resp.typePathFile === false) {
-        readDirMod(pathIn).then(resp => {
-            resp.forEach(fileMd => {
-                //console.log(pathIn + '\\'+ fileMd);
-                //readFileFunction(pathIn + fileMd, argumentOption);
-                readFileFunction(pathIn + '/'+ fileMd, argumentOption);
-            });
-        })
-    }
-
-}).catch(error => {
-    console.log('Error:  ' + error);
-});
-
+pathModule(pathIn)
+    .then((resp) => checkIfItIsFileOrDirectory(resp, pathIn, argumentOption))
+    .then((arrayLinks) => printArrayLinks(arrayLinks, argumentOption, pathIn))
+    .catch(error => console.log('Error:  ' + error));
 
 //PENDIENTES:
 //Reconoce rutas absolutas y relativas. 
