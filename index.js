@@ -1,7 +1,7 @@
 // Module should get and start mdLinks(path, options)
-const pathModule = require('./path-module.js');
-const printArrayLinks = require('./printArrayLinks.js');
-const checkIfItIsFileOrDirectory = require('./checkIfItIsFileOrDirectory.js');
+const pathModule = require('./modules/path-module.js');
+const printArrayLinks = require('./modules/printers/printArrayLinks.js');
+const checkIfItIsFileOrDirectory = require('./modules/checkIfItIsFileOrDirectory.js');
 
 
 // Content path file or directory to parse

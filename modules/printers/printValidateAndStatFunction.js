@@ -1,5 +1,5 @@
-const validateModule = require('./validate-module.js');
-const statsModule = require('./stats-module.js');
+const validateModule = require('../validateFiles/validate-module.js');
+const statsModule = require('../statsFiles/stats-module.js');
 
 module.exports=((arrayFileMd, argumentOption, pathIn) => {
     if (argumentOption === '--validate') {

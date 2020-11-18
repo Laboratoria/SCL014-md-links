@@ -1,4 +1,4 @@
-const printModule = require('./printConsole-module.js');
+const printModule = require('../printers/printConsole-module.js');
 //Module should get stats from links parsed
 
 module.exports = (objectLinks, option, pathGive) => {

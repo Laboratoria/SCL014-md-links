@@ -1,5 +1,5 @@
-const readFileAndReturnArray = require('./readFileAndReturnArray.js');
-const readDirectoryAndReturnArray = require('./readDirectoryAndReturnArray');
+const readFileAndReturnArray = require('./readersFiles/readFileAndReturnArray.js');
+const readDirectoryAndReturnArray = require('./readersFiles/readDirectoryAndReturnArray');
 
 module.exports=(resp, pathIn, argumentOption) => {
     if (resp.typePathFile === true && resp.typePathDir === false) {

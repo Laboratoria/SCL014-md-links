@@ -1,5 +1,5 @@
 const { readFileMod } = require('./readFile-module.js');
-const parseMdFile = require('./parseMdFile-module.js');
+const parseMdFile = require('../parseFiles/parseMdFile-module.js');
 
 
 module.exports= (pathGive) =>{
