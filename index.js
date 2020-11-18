@@ -1,49 +1,55 @@
 // Module should get and start mdLinks(path, options)
+const path = require('path');
 const { readDirMod } = require('./readDir-module.js');
 const pathMmodule = require('./path-module.js');
 const readFileFunction = require('./readFileFunction-module.js');
 
 // Content path file or directory to parse
 const pathIn = process.argv[2];
+//console.log(pathIn);
 
 // Content option selected
 //const optionIn = process.argv[3];
 const optionIn = () => {
     if (process.argv.length === 4) {
-        return { arg: process.argv[3]};
+        return { arg: process.argv[3] };
     } else if (process.argv.length > 4) {
         const argument = process.argv.slice(3, 5);
         const newArgument = argument[0] + ' ' + argument[1];
-        return { arg:newArgument};
+        return { arg: newArgument };
     }
 };
 const argument = optionIn();
-const argumentOption =argument.arg;
+const argumentOption = argument.arg;
 
 // Function should Read file or directory and executed each module
-pathMmodule(pathIn).then(resp=>{
-    if(resp.typePathFile === true && resp.typePathDir === false){
+pathMmodule(pathIn).then(resp => {
+    if (resp.typePathFile === true && resp.typePathDir === false) {
         readFileFunction(pathIn, argumentOption);
-    } else if(resp.typePathDir === true && resp.typePathFile === false){
-        readDirMod(pathIn).then(resp=>{
-            resp.forEach(fileMd => {             
-                readFileFunction(pathIn + fileMd, argumentOption);
+    } else if (resp.typePathDir === true && resp.typePathFile === false) {
+        readDirMod(pathIn).then(resp => {
+            resp.forEach(fileMd => {
+                //console.log(pathIn + '\\'+ fileMd);
+                //readFileFunction(pathIn + fileMd, argumentOption);
+                readFileFunction(pathIn + '/'+ fileMd, argumentOption);
             });
         })
     }
 
+}).catch(error => {
+    console.log('Error:  ' + error);
 });
 
 
 //PENDIENTES:
+//Reconoce rutas absolutas y relativas. 
+// hacer test
 // Ver manejo de errores en promesas 
 //README del proyecto 
 // Se debe ejecuta md-links <path-to-file> [options] === revisar argumentos
-//Reconoce rutas absolutas y relativas. 
 //Instalable via CLI
 //Crear mi libreria.
 //Se puede requerir. 
-// hacer test
 // truncar  ruta 50 caracteres.
 
 

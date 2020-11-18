@@ -13,14 +13,7 @@ module.exports = (pathIngresada) => {
                 resolve({
                     typePathFile: stats.isFile(),
                     typePathDir:  stats.isDirectory()
-                }) 
-                /* if (stats.isFile()) {
-                    console.log('is file ? ' + stats.isFile());
-                }
-    
-                else if (stats.isDirectory()) {
-                    console.log('is directory? ' + stats.isDirectory()); 
-                }*/
+                })                
             }
             else
                 rejects(err);
