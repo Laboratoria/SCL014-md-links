@@ -5,8 +5,8 @@ const axios = require('axios');
 
 const mdLinks = (filePathmdarray, validate, stats) => {
 
-
     const infoArray = new Array;
+
 
     //Funcion que lee el archivo
     const readFile = (filePathmd) => {
@@ -18,7 +18,7 @@ const mdLinks = (filePathmdarray, validate, stats) => {
 
                 } else {
                     resolve(
-                        showLinks2(data, filePathmd)
+                        (showLinks2(data, filePathmd))
                     )
 
                 }
@@ -39,45 +39,48 @@ const mdLinks = (filePathmdarray, validate, stats) => {
         const dom = new JSDOM(files);
         const listNode = dom.window.document.querySelectorAll('a');
         const arrayListNode = Array.from(listNode);
-
         let objectArray = new Object;
         arrayListNode.map((a) => {
             objectArray = {
                 href: a.href,
                 text: a.text,
-                file: filePathmd
+                file: filePathmd,
+
             }
             infoArray.push(objectArray);
 
         });
-        infoArray.forEach(enlace => {
-            console.log(enlace)
-            getHttp(enlace.href)
 
-
-        });
+        validateLinks();
         printResultsTable();
 
-    };
-    const getHttp = (link) => {
-        if (link.startsWith("http")) {
-            axios.get(link)
-                .then(response => {
-                    console.log(response.status);
-                    return response.status;
-                })
-                .catch(error => {
-                    console.log(error.response.status);
-                    return error.response.status;
-                })
-        } else {
-            return ("link es un about");
 
-        }
+    };
+    const validateLinks = () => {
+        infoArray.forEach(enlace => {
+            console.log(enlace.href)
+
+            if (enlace.href.startsWith("http")) {
+                axios.get(enlace.href)
+                    .then(response => {
+                        enlace.status = response.status;
+                        console.log(enlace)
+
+                    })
+                    .catch(error => {
+                        console.log(error.response.status);
+                        return error.response.status;
+                    })
+            } else {
+                return ("link es un about");
+
+            }
+        })
+        printResultsTable();
     }
 
     const printResultsTable = () => {
-        console.table(infoArray, ['href', 'file']);
+        console.table(infoArray, ['href', 'file', 'status']);
 
     };
 
