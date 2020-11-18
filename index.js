@@ -30,14 +30,16 @@ pathModule(pathIn)
 
 //PENDIENTES:
 //Reconoce rutas absolutas y relativas. 
+// truncar  ruta 50 caracteres.
+//README del proyecto 
+
 // hacer test
 // Ver manejo de errores en promesas 
-//README del proyecto 
 // Se debe ejecuta md-links <path-to-file> [options] === revisar argumentos
 //Instalable via CLI
 //Crear mi libreria.
 //Se puede requerir. 
-// truncar  ruta 50 caracteres.
+
 
 
 //LISTOS 
