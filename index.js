@@ -8,7 +8,7 @@ console.log(filePathmd)
 let mdFileArray = [];
 
 //funcion para detectar si es un archivo .md y lo pushea dentro del array 
-function addPath(mdPath) {
+const addPath = (mdPath) => {
     if (mdPath.endsWith('.md')) {
         mdFileArray.push(mdPath)
     }

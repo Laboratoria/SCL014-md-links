@@ -2,36 +2,39 @@ const fs = require('fs');
 const { JSDOM } = require('jsdom');
 let md = require('markdown-it')();
 const axios = require('axios');
-const { info } = require('console');
 
-module.exports = (filePathmdarray, validate, stats) => {
+const mdLinks = (filePathmdarray, validate, stats) => {
+
 
     const infoArray = new Array;
+
+    //Funcion que lee el archivo
+    const readFile = (filePathmd) => {
+        return new Promise((resolve, reject) => {
+
+            fs.readFile(filePathmd, 'utf-8', (err, data) => {
+                if (err) {
+                    reject(console.log('error :', err));
+
+                } else {
+                    resolve(
+                        showLinks2(data, filePathmd)
+                    )
+
+                }
+            });
+
+
+        });
+
+    };
+
 
     filePathmdarray.forEach(path => readFile(path));
 
 
-    function resultsTable(data, validate) {
-        let headers = ['ruta', 'links', 'texto']
-        console.log(headers);
-    };
+    const showLinks2 = (data, filePathmd) => {
 
-    function readFile(filePathmd) {
-        //Funcion que lee el archivo
-        fs.readFile(filePathmd, 'utf-8', (err, data) => {
-            if (err) {
-                console.log('error :', err);
-
-            } else {
-                console.log('Contiene un archivo');
-                console.log(showLinks2(data, filePathmd));
-
-            }
-        });
-    };
-
-
-    function showLinks2(data, filePathmd) {
         const files = md.render(data.toString());
         const dom = new JSDOM(files);
         const listNode = dom.window.document.querySelectorAll('a');
@@ -56,8 +59,7 @@ module.exports = (filePathmdarray, validate, stats) => {
         printResultsTable();
 
     };
-
-    function getHttp(link) {
+    const getHttp = (link) => {
         if (link.startsWith("http")) {
             axios.get(link)
                 .then(response => {
@@ -74,15 +76,15 @@ module.exports = (filePathmdarray, validate, stats) => {
         }
     }
 
-    function printResultsTable() {
-        console.table(infoArray);
-
-
-
+    const printResultsTable = () => {
+        console.table(infoArray, ['href', 'file']);
 
     };
 
-};
+
+}
+
+module.exports = mdLinks;
 
 
 
