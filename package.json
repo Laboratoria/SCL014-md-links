@@ -1,6 +1,6 @@
 {
   "name": "naterayc-md-links",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "dependencies": {
     "node-fetch": "^2.6.1"
   },
