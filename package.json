@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/CatalinaJL/SCL014-md-links#readme",
   "dependencies": {
+    "fetch": "^1.1.0",
     "markdown-it": "^12.0.2"
   }
 }
