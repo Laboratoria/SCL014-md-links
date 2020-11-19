@@ -1,7 +1,5 @@
 // Module should get and start mdLinks(path, options)
-const pathModule = require('./modules/path-module.js');
-const printArrayLinks = require('./modules/printers/printArrayLinks.js');
-const checkIfItIsFileOrDirectory = require('./modules/checkIfItIsFileOrDirectory.js');
+const mdLinks = require('./index.js');
 
 // Content path file or directory to parse
 const pathIn = process.argv[2];
@@ -15,16 +13,8 @@ const optionIn = () => {
 };
 const argument = optionIn();
 
-
-// Function should Read file or directory and executed each module
-pathModule(pathIn)
-    .then((resp) => checkIfItIsFileOrDirectory(resp, pathIn))
-    .then((arrayLinks) => printArrayLinks(arrayLinks, argument, pathIn))
-    .catch(error => console.log('Error:  ' + error));
-
-
-
-
+mdLinks(pathIn, argument)
+    .catch(() => console.log('Ha ocurrido un error'));
 
 
 
