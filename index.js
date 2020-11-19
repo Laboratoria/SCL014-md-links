@@ -4,11 +4,11 @@
 //   // ...
 // };
 
-const { rejects } = require('assert');
+
 const fs = require('fs');
 const path = require('path');
-const { errorMonitor } = require('stream');
-// const MarkdownIt = require('markdown-it');
+
+
 
 /* Info from CLI */
 // Get the route of the file or file directory
@@ -25,29 +25,34 @@ const pathTransform = (route) => {
     if (path.isAbsolute(route)) {
         return route
     } else {
-        return path.resolve(route);
+        return path.normalize(path.resolve(route));
     }
 };
+
 
 // Save in variable the Path 
 const filePath = pathTransform(routeConsole);
 // console.log(filePath);
 
-
+// Const with Regular Expresions to Match in file 
 const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm;
 const singleMatch = /\[([^\[]+)\]\((.*)\)/;
 
-
+// Function to get Links, text and path from File. It will be called in Promise ReadFile
 
 const links = (file, route) => {
     let arrayofRegEx= file.match(regexMdLinks);
-    console.log(arrayofRegEx);
+    const onlyInfoLinks= [];
      arrayofRegEx.forEach((line) => {
       let lineLink= line.match(singleMatch);
-      console.log(lineLink)
-   }
-   )
- 
+     let http = lineLink[2].includes('http');
+    //  console.log(http);
+     if(http){
+         onlyInfoLinks.push({href:lineLink[2], text:lineLink[1], path:route})
+     }
+   });
+//    console.log(onlyInfoLinks);
+   return onlyInfoLinks;
 };
 
 
@@ -59,32 +64,19 @@ const readFilefromPath = (fileName, encoding) => {
             if (err) {
                 reject(err);
             } else {
-                links(data, fileName);
+                resolve(links(data, fileName));
             }
         });
     });
 };
 
 
-// Function to validate the extension of the file and apply the promise ReadFile, and get array that match with
-// Regular Expresions
-
-let fileData = [];
-const regEx2= /\[(.+)\]\(([^ ]+?)( "(.+)")?\)/;
-const regEx1 = /\[([^\[\]]*?)\]\((\S*?)\)/gsi;
-
+// Function to validate the extension of the file and apply the promise ReadFile
 fileExtension = (route) => {
     if (path.extname(route) === '.md') {
         readFilefromPath(route, 'utf-8')
             .then(res => {
                 console.log(res);
-                // // let fileData= [];
-                // // fileData.push(res);
-                // console.log('El archivo dice' + ':' + res);
-                // // const linksData= res.match(regEx);
-                // // // console.log(linksData);
-                // // fileData.push(linksData);
-                // // console.log(fileData);
             })
             .catch(err => {
                 console.log(err);
@@ -99,19 +91,10 @@ fileExtension = (route) => {
 
 const fileForLinks= fileExtension(filePath);
 
-console.log(fileForLinks);
+// console.log(fileForLinks);
 
 // Function to search only links 
 
-const searchLinks = (file) =>{
-    let onlyLinks= [];
-  fileForLinks.forEach(file => {
-      if('https' === 'https'){
-        
-      }
-      
-  });
-}
 
 
 
