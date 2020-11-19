@@ -19,80 +19,99 @@ let optionsConsole = process.argv[3];
 // console.log(optionsConsole);
 
 
-// Ruta Archivo, False si es relativa / True si es absoluta
+// Path --> Evaluate the path, if it's Absolute will return it, and if it's Relative it will transform in Absolute
 
-const pathTransform= (ruta) =>{
-    if(path.isAbsolute(ruta) ){
-        return ruta
+const pathTransform = (route) => {
+    if (path.isAbsolute(route)) {
+        return route
     } else {
-        return path.resolve(ruta); 
+        return path.resolve(route);
     }
 };
 
-// console.log(pathTransform(routeConsole));
-
+// Save in variable the Path 
 const filePath = pathTransform(routeConsole);
+// console.log(filePath);
 
-const readFile = (file) =>{
-    fs.readFile(file, 'utf-8', (error, data) =>{
-        if (error) throw error;
 
-        console.log(data);
-    })
+const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm;
+const singleMatch = /\[([^\[]+)\]\((.*)\)/;
+
+
+
+const links = (file, route) => {
+    let arrayofRegEx= file.match(regexMdLinks);
+    console.log(arrayofRegEx);
+     arrayofRegEx.forEach((line) => {
+      let lineLink= line.match(singleMatch);
+      console.log(lineLink)
+   }
+   )
+ 
 };
 
 
+// Function with Promise to read File, and to later apply it in fileExtension Function
 
-// Extensión de archivo
+const readFilefromPath = (fileName, encoding) => {
+    return new Promise((resolve, reject) => {
+        fs.readFile(fileName, encoding, (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                links(data, fileName);
+            }
+        });
+    });
+};
 
-const fileExtension = (ruta) =>{
-    if(path.extname(ruta) === '.md'){
-        return readFile(ruta);
-    }else{
+
+// Function to validate the extension of the file and apply the promise ReadFile, and get array that match with
+// Regular Expresions
+
+let fileData = [];
+const regEx2= /\[(.+)\]\(([^ ]+?)( "(.+)")?\)/;
+const regEx1 = /\[([^\[\]]*?)\]\((\S*?)\)/gsi;
+
+fileExtension = (route) => {
+    if (path.extname(route) === '.md') {
+        readFilefromPath(route, 'utf-8')
+            .then(res => {
+                console.log(res);
+                // // let fileData= [];
+                // // fileData.push(res);
+                // console.log('El archivo dice' + ':' + res);
+                // // const linksData= res.match(regEx);
+                // // // console.log(linksData);
+                // // fileData.push(linksData);
+                // // console.log(fileData);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    } else {
         return console.log('No puedes seguir por acá')
     }
+    return 
 };
 
-console.log(fileExtension(filePath));
+// Variable that has the result of fileExtension function
 
-// Expresiones Regulares para buscar links 
-const regEx = /\[([^\[\]]*?)\]\((\S*?)\)/gsi;
-const urlRegex = /(\b(http?|https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/igs;
+const fileForLinks= fileExtension(filePath);
 
-// Leer Archivo 
-// const dataFile = [];
+console.log(fileForLinks);
 
-// // const stringData= dataFile.toString();
-// // console.log(stringData);
+// Function to search only links 
 
-// const readLinks = dataFile.match(urlRegex);
-// console.log(readLinks);
-
-let dataLinks = [];
-
-// const readFile= fs.readFile(routeConsole, 'utf-8', (error, data) => {
-//     if (error) throw error;
-//     let dataFile = data;
-//     // console.log(dataFile);
-//     let linkdData = dataFile.match(regEx);
-//     // console.log(linkdData);
-//     dataLinks.push(linkdData);
-//     console.log(dataLinks);
-    
-// });
-
-// const links = (dataLinks) =>{
-//   for (let index = 0; index < dataLinks.length; index++) {
-//       return 
+const searchLinks = (file) =>{
+    let onlyLinks= [];
+  fileForLinks.forEach(file => {
+      if('https' === 'https'){
+        
+      }
       
-//   }
-// }
-
-const linksToString = dataLinks.toString();
-console.log(linksToString);
-const linksString = linksToString.match(urlRegex);
-console.log(linksString);
-
+  });
+}
 
 
 
