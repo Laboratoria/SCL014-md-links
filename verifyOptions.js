@@ -20,6 +20,9 @@ let options = {
         return validate(data)
           .then(validatedData => {
             validatedData.forEach(link => {
+                if (link.texto.length > 50){
+                    link.texto = link.texto.slice(0,50);
+                }
               console.log(pathname, link.href, link.texto, link.status, link.statusText);
             })
           })
@@ -33,6 +36,9 @@ let options = {
       }
       if (process.argv[3] === undefined) {
         data.forEach(link => {
+            if (link.text.length > 50){
+                link.text = link.text.slice(0,50);
+            }
           console.log(pathname, link.href, link.text);
         })
       }
