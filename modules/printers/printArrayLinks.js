@@ -4,4 +4,5 @@ module.exports = (arrayLinks, argumentOption, pathIn) => {
     arrayLinks.forEach(arrayFileMd => {
         printValidateAndStatFunction(arrayFileMd, argumentOption, pathIn);
     });
+    return arrayLinks;
 };
