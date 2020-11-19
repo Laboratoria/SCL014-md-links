@@ -1,8 +1,7 @@
-#!/usr/bin/env node
 
 const mdLinks = require('./md-links.js');
 const pathname = process.argv[2];
 
-mdLinks(pathname, (isAbsolute, route) => {
-    console.log(isAbsolute, route);
-});
+mdLinks(pathname)
+.then(data => console.log(data.href))
+.catch(error => console.log(error))

@@ -7,7 +7,9 @@ const verifyOptions = require('./verifyOptions');
 const isMd = require('./isMd');
 const findMd = require('./findMd');
 
-module.exports = (pathname, callback) => {
+module.exports = (pathname, callback) => 
+
+new Promise ((reject, resolve) => {
 
   let route = path.resolve(pathname);
 
@@ -19,16 +21,23 @@ module.exports = (pathname, callback) => {
         readDir(route)
           .then(data => findMd(data, route))
           .then(par => readFile(par))
-          .then(data => verifyOptions(data, pathname))
+          .then(data => {
+            verifyOptions(data, pathname)
+            resolve(data)
+          })
           .catch(error => console.log(error));
       } else {
         isMd(route)
           .then(par => readFile(par))
-          .then(data => verifyOptions(data, pathname))
+          .then(data => {
+            verifyOptions(data, pathname)
+            resolve(data)
+          })
           .catch(error => console.log(error))
       }
     })
-    .catch(error => console.log(error));
-}
+    .catch(error => {console.log(error)})
+})
+
 
 

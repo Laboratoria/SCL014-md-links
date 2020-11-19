@@ -1,4 +1,5 @@
 const { argv } = require('yargs');
+const chalk = require('chalk');
 const validate = require('./validate');
 
 module.exports = (data) => {
@@ -20,7 +21,7 @@ module.exports = (data) => {
             console.log('Unique links:', uniqueLinks.length);
 
             if (argv.validate || argv.v){
-            console.log('Broken links:', brokenLinks);
+            console.log(chalk.red('Broken links:', brokenLinks));
             } 
         })
         .catch((err) => {
