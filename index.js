@@ -3,11 +3,18 @@ let fs = require('fs');
 
 
 //este es el path que te pasa el usuario
+
+
 const filePathmd = process.argv[2]
-console.log(filePathmd)
-let mdFileArray = [];
+//si la ruta es relativa lo pasa a absoluta
+const route = (filePathmd) => {
+
+    path.resolve(filePathmd) === path.normalize(filePathmd).replace(RegExp(path.sep + '$'), '');
+    console.log(route)
+};
 
 //funcion para detectar si es un archivo .md y lo pushea dentro del array 
+let mdFileArray = [];
 const addPath = (mdPath) => {
     if (mdPath.endsWith('.md')) {
         mdFileArray.push(mdPath)
@@ -29,7 +36,7 @@ else {
 }
 
 
-//devuelve los archivos dentro del directorio que sean md
+
 let validate = false;
 let stats = false;
 if (process.argv.includes('--validate')) {

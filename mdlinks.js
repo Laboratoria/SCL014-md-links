@@ -24,7 +24,6 @@ const mdLinks = (filePathmdarray, validate, stats) => {
 
 
         });
-
     };
     filePathmdarray.forEach(path => readFile(path));
 
@@ -47,9 +46,9 @@ const mdLinks = (filePathmdarray, validate, stats) => {
             }
 
         });
-
         validateLinks();
-        // printResultsTable();
+        printResultsTable();
+        if (stats) { printStatsData() }
     };
     const validateLinks = () => {
         infoArray.forEach(enlace => {
@@ -57,11 +56,8 @@ const mdLinks = (filePathmdarray, validate, stats) => {
             axios.get(enlace.href)
                 .then(response => {
                     enlace.status = response.status;
-                    console.log(enlace)
-
                 })
                 .catch(error => {
-                    console.log(enlace)
                     enlace.status = error.response.status;
                     return error.response.status;
                 })
@@ -70,11 +66,26 @@ const mdLinks = (filePathmdarray, validate, stats) => {
 
     }
 
-    /*   const printResultsTable = () => {
-          console.table(infoArray, ['href', 'file', 'status']);
-      };
-  
-   */
+
+    const printResultsTable = () => {
+        console.table(infoArray, ['text', 'href']);
+    };
+
+    const printStatsData = () => {
+        let broken = 1;
+        let total = infoArray.length;
+        let uniqs = infoArray.filter(function (item, index, array) {
+            return array.indexOf(item) === index;
+        }).length;
+        console.log('-----------------')
+        console.log('Total: ' + total)
+        console.log('Unique: ' + uniqs)
+        if (validate) { console.log('Broken: ' + broken) }
+        console.log('-----------------')
+
+
+    };
+
 }
 
 module.exports = mdLinks;
