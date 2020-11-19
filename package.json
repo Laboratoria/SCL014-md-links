@@ -14,6 +14,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "run-test": "node main-module.js ./ --stats --validate"
   },
+  "bin": {
+    "md-links": "./main-module.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/adbarquitectura/SCL014-md-links.git"

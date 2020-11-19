@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 // Module should get and start mdLinks(path, options)
 const mdLinks = require('./index.js');
 
