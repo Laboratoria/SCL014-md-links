@@ -5,7 +5,7 @@ const readDir = require('./readDir');
 const readFile = require('./readFile');
 const verifyOptions = require('./verifyOptions');
 const isMd = require('./isMd');
-const findmd = require('./findmd');
+const findMd = require('./findMd');
 
 module.exports = (pathname, callback) => {
 
@@ -17,7 +17,7 @@ module.exports = (pathname, callback) => {
     .then(isDirectory => {
       if (isDirectory) {
         readDir(route)
-          .then(data => findmd(data, route))
+          .then(data => findMd(data, route))
           .then(par => readFile(par))
           .then(data => verifyOptions(data, pathname))
           .catch(error => console.log(error));
