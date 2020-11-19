@@ -5,10 +5,8 @@ const checkIfItIsFileOrDirectory = require('./modules/checkIfItIsFileOrDirectory
 
 // Content path file or directory to parse
 const pathIn = process.argv[2];
-//console.log(pathIn);
 
 // Content option selected
-//const optionIn = process.argv[3];
 const optionIn = () => {
     return {
         stats: process.argv.includes('--stats'),
