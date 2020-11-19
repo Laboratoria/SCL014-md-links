@@ -1,7 +1,16 @@
 module.exports = (arrayResp, option, pathgive) => {
     const arrayObjects = arrayResp
     // Print module validate
-    if (option === '--validate') {
+    if (option.validate === true && option.stats === true) {
+        const countBroken = arrayObjects.total.filter(link => {
+            return link.status === 404;
+        });
+        console.log('YOU HAVE EXECUTED MODULE --VALIDATE --STATS AT ' + arrayObjects.total[0].file);
+        console.log('Total: ' + arrayObjects.total.length);
+        console.log('Unique: ' + arrayObjects.unique.length);
+        console.log('Broken: ' + countBroken.length);
+    }
+    else if (option.validate === true) {
         console.log('YOU HAVE EXECUTED MODULE --VALIDATE AT ' + arrayObjects.total[0].file);
         arrayObjects.total.forEach(link => {
             const truncateString = (sting, num) => {
@@ -15,20 +24,11 @@ module.exports = (arrayResp, option, pathgive) => {
             console.log(link.file + ' ' + link.href + ' ' + link.status + ' ' + link.statusText + ' ' + truncateString(textLength, 50));
         });
     } // Print module stats 
-    else if (option === '--stats') {
+    else if (option.stats === true) {
         console.log('YOU HAVE EXECUTED MODULE --STATS AT ' + arrayObjects.total[0].file);
         console.log('Total: ' + arrayObjects.total.length);
         console.log('Unique: ' + arrayObjects.unique.length);
 
     } // Print module validate &  stats
-    else if (option === '--stats --validate' || option === '--validate --stats') {
-        const countBroken = arrayObjects.total.filter(link => {
-            return link.status === 404;
-        });
-        console.log('YOU HAVE EXECUTED MODULE --VALIDATE --STATS AT ' + arrayObjects.total[0].file);
-        console.log('Total: ' + arrayObjects.total.length);
-        console.log('Unique: ' + arrayObjects.unique.length);
-        console.log('Broken: ' + countBroken.length);
-    }
 
 };
