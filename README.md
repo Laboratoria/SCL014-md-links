@@ -77,7 +77,7 @@ Broken: 0
 ## Módulo
 MdLinks tambien puede ser requerido como un módulo.
 
-~~~
+~~~js
 const mdLinks = require('naterayc-md-links/md-links');
 mdLinks("./archivo.md")
 ~~~
