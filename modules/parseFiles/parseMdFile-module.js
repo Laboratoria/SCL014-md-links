@@ -1,5 +1,3 @@
-const validateModule = require('../validateFiles/validate-module.js');
-const statsModule = require('../statsFiles/stats-module.js');
 
 //Module should parse md file read 
 module.exports = (data, pathFileParse) => {
