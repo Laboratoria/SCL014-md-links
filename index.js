@@ -1,12 +1,10 @@
 #!/usr/bin/env node
 
-// module.exports = () => {
-//   // ...
-// };
-
 
 const fs = require('fs');
 const path = require('path');
+const fetch = require("fetch");
+const fetchUrl = fetch.fetchUrl;
 
 
 
@@ -41,19 +39,22 @@ const singleMatch = /\[([^\[]+)\]\((.*)\)/;
 // Function to get Links, text and path from File. It will be called in Promise ReadFile
 
 const links = (file, route) => {
-    let arrayofRegEx= file.match(regexMdLinks);
+    let arrayofRegEx = file.match(regexMdLinks);
     const onlyInfoLinks= [];
-     arrayofRegEx.forEach((line) => {
-      let lineLink= line.match(singleMatch);
-     let http = lineLink[2].includes('http');
-    //  console.log(http);
-     if(http){
-         onlyInfoLinks.push({href:lineLink[2], text:lineLink[1], path:route})
-     }
-   });
-//    console.log(onlyInfoLinks);
-   return onlyInfoLinks;
+    arrayofRegEx.forEach((line) => {
+        let lineLink = line.match(singleMatch);
+        let http = lineLink[2].includes('http');
+        //  console.log(http);
+        if (http) {
+            onlyInfoLinks.push({ href: lineLink[2], text: lineLink[1], path: route })
+        }
+
+    });
+    
+    //    console.log(onlyInfoLinks);
+    return onlyInfoLinks;
 };
+
 
 
 // Function with Promise to read File, and to later apply it in fileExtension Function
@@ -72,11 +73,13 @@ const readFilefromPath = (fileName, encoding) => {
 
 
 // Function to validate the extension of the file and apply the promise ReadFile
-fileExtension = (route) => {
+const fileExtension = (route) => {
     if (path.extname(route) === '.md') {
         readFilefromPath(route, 'utf-8')
             .then(res => {
-                console.log(res);
+                const objectWithInfo =res;
+                console.log(objectWithInfo);
+
             })
             .catch(err => {
                 console.log(err);
@@ -84,16 +87,16 @@ fileExtension = (route) => {
     } else {
         return console.log('No puedes seguir por acá')
     }
-    return 
+    // return onlyInfoLinks;
 };
 
 // Variable that has the result of fileExtension function
 
-const fileForLinks= fileExtension(filePath);
+const fileForLinks = fileExtension(filePath);
 
-// console.log(fileForLinks);
 
-// Function to search only links 
+
+
 
 
 
