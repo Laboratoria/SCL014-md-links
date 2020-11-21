@@ -17,39 +17,3 @@ const argument = optionIn();
 
 mdLinks(pathIn, argument)
     .catch(() => console.log('Ha ocurrido un error'));
-
-
-
-//PENDIENTES:
-//Reconoce rutas absolutas y relativas. 
-//README del proyecto 
-
-// hacer test
-// Ver manejo de errores en promesas 
-// Se debe ejecuta md-links <path-to-file> [options] === revisar argumentos
-//Instalable via CLI
-//Crear mi libreria.
-//Se puede requerir. 
-
-
-
-//LISTOS 
-// truncar  ruta 50 caracteres. OK
-// Independizar impresion en consola. OK
-//aceptar argumento via consola. OK
-//Leer un directorio . OK
-
-// TEST
-// Simular que no recibe argumentos 
-// simular que recibe otro tipo de argumento 
-// simular que la ruta no existe 
-
-
-// CONSIDERAR
-// si no recibe argumentos 
-// si  el archivo md  ingresado no se encuentra 
-// si el argumento en la posicion[2] no es una url 
-// si el arqumento en la posicion[3] no es validate ni stats
-// si la ruta es un directorio 
-
-//https://medium.com/@muzk/c%C3%B3mo-crear-un-m%C3%B3dulo-en-npm-11ff8c1c699f

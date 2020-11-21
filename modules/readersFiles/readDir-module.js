@@ -2,8 +2,6 @@
 const fs = require('fs');
 const path = require('path');
 
-const paseMdFile = require('../parseFiles/parseMdFile-module.js');
-
 //  Read Directory and get .Md files ext
 const readDirMod = (pathDir) => {
     return new Promise((resolve, rejects) => {
