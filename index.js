@@ -1,14 +1,14 @@
-module.exports = () => {
-  // ...
-};
+#!/usr/bin/env node
+const mdLinksModule = require("./md-links"); 
+const chalk = require("chalk");
+const log = console.log;
 const fetch = require('node-fetch');
 const marked = require('marked');
-let dir = require('node-dir');
 const fs = require('fs');
 const path = require('path');
-const { Console } = require('console');
 let pathC = process.argv[2];
 pathC = path.normalize(path.resolve(pathC));
+
 //const validateLinks = require("./md-links");
 
 // lee archivos en directorio, muestra array con archivos existentes dentro y los que tienen extension ".md"
@@ -20,18 +20,16 @@ const readDir = (__dirname => {
         reject(console.log(err, "El directorio esta vacio"))
       }
       resolve(subdirs);
-      //console.log(subdirs)
 
       subdirs.forEach(file => {
         if (path.extname(file) === ".md") {
-          console.log(file)
+          console.log("Archivos Markdown: ", file)
           readFiles()
-
             .then(res => {
-              console.log("hola", res);
+              console.log(res);
             })
             .catch(err => {
-              console.log(err, "Este no es un archivo Markdown, ingresa una ruta valida");
+              console.log("Este no es un archivo Markdown, ingresa un archivo con extension .md");
             })
 
         }
@@ -62,43 +60,39 @@ const readFiles = (pathFile) => {
 const validatePathAndDirectory = (route) => {
 
   if (fs.existsSync(route)) {
-    console.log('La ruta existe')
     try {
       const dir = fs.lstatSync(route).isDirectory()
       fs.lstatSync(route).isDirectory()
       if (dir) {
         readDir(route)
           .then(res => {
-            console.log("hola", res);
+            console.log("Archivos en directorio: ", res);
           })
           .catch(err => {
-            //console.log(err, "Este no es un archivo Markdown");
           })
       }
       else {
         readFiles(route)
           .then(res => {
-            console.log("hola", res);
+            console.log(res);
           })
           .catch(err => {
-            // console.log(err, "Este no es un archivo Markdown");
           })
       }
     } catch (e) {
-      // Handle error
       if (e.code == 'ENOENT') {
-        //no such file or directory
-        //do something
       } else {
         //do something else
       }
     }
+  } else {
+    console.log("Ingresa una ruta valida")
   }
 }
 
 validatePathAndDirectory(pathC)
 
-
+// Funcion que extrae links, texto y rutas de archivos con extension "md"
 
 const gettingLinks = (textFile, file) => {
 
@@ -109,18 +103,20 @@ const gettingLinks = (textFile, file) => {
   renderer.link = (href, title, text) => {
 
     if (!href.startsWith('#')) {
-      arrayLinks.push({ href, text, file });
+      arrayLinks.push({ href, text: text.slice(0, 50), file });
       // console.log(arrayLinks)   
     }
   }
   marked(textFile, { renderer });
 
   //return arrayLinks;
-  validateLinksAll(arrayLinks)
-
+ validateLinksAll(arrayLinks)
 }
 
-const validateLinksAll = (validateLinks) => {
+
+// Funcion que valida los links extraidos y retorna el status en numero y texto 
+
+const validateLinksAll = (validateLinks, stats) => {
   const linksValidateWithFetch = validateLinks.map((element) => {
     return fetch(element.href)
       .then((res) => {
@@ -131,32 +127,47 @@ const validateLinksAll = (validateLinks) => {
           status: res.status,
           statusText: res.statusText,
         }
+
       });
 
   });
 
-
+ 
   Promise.all(linksValidateWithFetch)
 
     .then(resp => {
+       if (stats === true) {
+        statsLinks(validateLinks);
+      } else {
       resp.forEach(element => {
 
-        console.log((element.file + element.href), (element.status + '\n'), (element.statusText + '\n') + element.text);
-
+       log(chalk.green(element.file) + " " + chalk.cyan(element.href) + " " + chalk.yellow(element.status) + " " + chalk.magenta(element.statusText) + " " + chalk.white(element.text));
+      
       });
-      stats(validateLinks)
-
-    })
+  
+       }
+      
+    }); 
+    statsLinks(validateLinks)
+   
 
 }
 
+const statsLinks = (linksStats) => {
+
+  let hrefNewArray = [];
+
+  linksStats.forEach(link => {
+    hrefNewArray.push(link.href);
+  });
+  let uniqueLinks = new Set(hrefNewArray);
 
 
+ log(chalk.blue("STATS:") + '\n' + chalk.magentaBright("TOTAL: " + hrefNewArray.length) + '\n' + chalk.green("UNIQUE: " + uniqueLinks.size))
+
+  }
 
 
-
-
-
-
-
-
+  module.exports = {
+    validateLinksAll
+  }
