@@ -13,7 +13,7 @@ const colors = require('colors');
 /* Info from CLI */
 // Get the route of the file or file directory
 let routeConsole = process.argv[2];
-console.log(routeConsole);
+// console.log(routeConsole);
 // Get the options of information that the user wants
 let optionsConsole = process.argv[3];
 // console.log(optionsConsole);
@@ -67,32 +67,32 @@ const links = (file, route) => {
             onlyInfoLinks.push({ href: lineLink[2], text: lineLink[1], path: route });
         }
     });
-    let total = onlyInfoLinks.length;
-    // console.log(total);
-    onlyInfoLinks.map((line) => {
-        let url = line.href;
-        let text = line.text;
-        let file = line.path;
-        // let total = onlyInfoLinks.length;
-        // console.log(file + " " + url + " " + text);
-        if (optionsConsole === '--validate') {
-            getHttpStatus(url)
-                .then(res => {
-                    console.log (` El estado de  ${url.blue}  es ${res}`)
-                    // ('El estado de', url.blue, 'es:', res.black)
-                })
-                .catch(err => {
-                    console.log(err.path)
-                });
-        } else if( optionsConsole === '--stats'){
-            total : total;
-            // let total = onlyInfoLinks.length;
-            console.log(total);
-        } 
-        else {
-            return console.log((` File: ${file.green} \n Link: ${url.yellow}   \n Text: ${text.white}`));
-        };
-    });
+    // let total = onlyInfoLinks.length;
+    // // console.log(total);
+    // onlyInfoLinks.map((line) => {
+    //     let url = line.href;
+    //     let text = line.text;
+    //     let file = line.path;
+    //     // let total = onlyInfoLinks.length;
+    //     // console.log(file + " " + url + " " + text);
+    //     if (optionsConsole === '--validate') {
+    //         getHttpStatus(url)
+    //             .then(res => {
+    //                 console.log (` El estado de  ${url.blue}  es ${res}`)
+    //                 // ('El estado de', url.blue, 'es:', res.black)
+    //             })
+    //             .catch(err => {
+    //                 console.log(err.path)
+    //             });
+    //     } else if( optionsConsole === '--stats'){
+    //         total : total;
+    //         // let total = onlyInfoLinks.length;
+    //         console.log(total);
+    //     } 
+    //     else {
+    //         return console.log((` File: ${file.green} \n Link: ${url.yellow}   \n Text: ${text.white}`));
+    //     };
+    // });
     return onlyInfoLinks;
 };
 
@@ -121,7 +121,31 @@ const fileExtension = (route) => {
     if (path.extname(route) === '.md') {
         readFilefromPath(route, 'utf-8')
             .then(res => {
-                // console.log(res);
+                let onlyInfoLinks = res;
+                onlyInfoLinks.map((line) => {
+                    let url = line.href;
+                    let text = line.text;
+                    let file = line.path;
+                    // let total = onlyInfoLinks.length;
+                    // console.log(file + " " + url + " " + text);
+                    if (optionsConsole === '--validate') {
+                        getHttpStatus(url)
+                            .then(res => {
+                                console.log (` El estado de  ${url.blue}  es ${res}`)
+                                // ('El estado de', url.blue, 'es:', res.black)
+                            })
+                            .catch(err => {
+                                console.log(err.path)
+                            });
+                    } else if( optionsConsole === '--stats'){
+                        // total : total;
+                        // let total = onlyInfoLinks.length;
+                        console.log(total);
+                    } 
+                    else {
+                        return console.log((` File: ${file.green} \n Link: ${url.yellow}   \n Text: ${text.white}`));
+                    };
+                });
 
             })
             .catch(err => {
