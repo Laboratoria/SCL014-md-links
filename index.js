@@ -4,8 +4,9 @@
 const fs = require('fs');
 const path = require('path');
 const fetch = require("fetch");
-const { on } = require('process');
+// const { on } = require('process');
 const fetchUrl = fetch.fetchUrl;
+const colors = require('colors');
 
 
 
@@ -77,19 +78,19 @@ const links = (file, route) => {
         if (optionsConsole === '--validate') {
             getHttpStatus(url)
                 .then(res => {
-                    console.log('El estado de', url, 'es:', res)
+                    console.log (` El estado de  ${url.blue}  es ${res}`)
+                    // ('El estado de', url.blue, 'es:', res.black)
                 })
                 .catch(err => {
                     console.log(err.path)
                 });
-        } if( optionsConsole === '--stats'){
+        } else if( optionsConsole === '--stats'){
             total : total;
             // let total = onlyInfoLinks.length;
             console.log(total);
         } 
         else {
-            return console.log((` File: ${file} \n Link: ${url}   \n Text: ${text}`))
-            // console.log(`File`file + " " + url + " " + text);
+            return console.log((` File: ${file.green} \n Link: ${url.yellow}   \n Text: ${text.white}`));
         };
     });
     return onlyInfoLinks;
@@ -114,14 +115,6 @@ const readFilefromPath = (fileName, encoding) => {
     });
 };
 
-// 
-
-// const urlToValidate = (array) =>{
-//     for (let url in array){
-//         if(array[i])
-//     }
-// }
-
 
 // Function to validate the extension of the file and apply the promise ReadFile
 const fileExtension = (route) => {
@@ -137,7 +130,6 @@ const fileExtension = (route) => {
     } else {
         return console.log('No puedes seguir por acá')
     }
-    // return onlyInfoLinks;
 };
 
 // Variable that has the result of fileExtension function

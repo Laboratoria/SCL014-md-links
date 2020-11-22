@@ -1,6 +1,6 @@
 {
   "name": "md-linkscjl",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Proyecto MD-Links Laboratoria SCL014",
   "main": "index.js",
   "directories": {
@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/CatalinaJL/SCL014-md-links#readme",
   "dependencies": {
+    "colors": "^1.4.0",
     "fetch": "^1.1.0",
     "markdown-it": "^12.0.2"
   }
