@@ -4,10 +4,11 @@ module.exports = (arrayLinks, argumentOption, pathIn) => {
     const newArray = arrayLinks.map(arrayFileMd => {
         return printValidateAndStatFunction(arrayFileMd, argumentOption, pathIn);
     });    
-    if (argumentOption !==  true) {
+    if (argumentOption === " " || argumentOption === { } || argumentOption === undefined) {
         return arrayLinks;
     } 
     return Promise.all(newArray).then(resp=>{      
         return resp;
-    });    
+    });
+    
 };
