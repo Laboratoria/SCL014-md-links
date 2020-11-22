@@ -20,10 +20,5 @@ module.exports = (objectLinksValidate, option, pathGive) => {
         broken: arrayBrokenLinks
     };
     printModule(arrayReturn, option, pathGive);
-
+    return  arrayObjectLinks;   
 };
-
-/* for(var property in obj) {
-    alert(property + "=" + obj[property]);
-}
- */
