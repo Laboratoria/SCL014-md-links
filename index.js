@@ -8,16 +8,16 @@ const chalk = require("chalk");
 let pathToFile = process.argv[2];
 
 //console.log(chalk.bold.inverse("FILE: ") + chalk.bold.inverse(pathToFile));
-console.log(chalk.bold.inverse.white("\n" +
-  " ---------------------------------------- MD-LINKS RESULT ---------------------------------------- "));
-console.log(chalk.bold.white("Choose an option: ") + chalk.white("No option | --validate or --v | --stats or --s  | --validate --stats or --v --s") + "\n");
+console.log(chalk.bold.inverse.yellow("\n" +
+  " ---------------------------------------- MD-LINKS  ---------------------------------------- ")+ "\n" );
+console.log(chalk.bold.yellow("Escoge una opción: ") + chalk.white("No options | --validate or --v | --stats or --s  | --validate --stats or --v --s") + "\n");
 
-console.log(chalk.bold("FILE NAME: ") + chalk(pathToFile));
+console.log(chalk.bold.yellow("FILE NAME: ") + chalk(pathToFile));
 
 //transforma ruta absoluta en relativa
 pathToFile = path.resolve(pathToFile);
 pathToFile = path.normalize(pathToFile);
-console.log(chalk.bold("FILE PATH: ") + chalk.white(pathToFile) + "\n");
+console.log(chalk.bold.yellow("FILE PATH: ") + chalk.white(pathToFile) + "\n");
 //console.log("PATH:", pathToFile);
 
 let firstOption = process.argv[3];
@@ -52,11 +52,12 @@ mdLinks(pathToFile, options)
     if (options.validate === false && options.stats === false) {
       links.map(link => {
         console.log(
-            chalk.bold.inverse.white("FILE:") +
+            //este esta funcionando/////////////
+            chalk.bold.inverse.yellow("FILE:") +
           chalk.white(link.file) +
           " " +
           "\n" +
-          chalk.bold.bgBlue("LINK:") +
+          chalk.bold.inverse.bgBlack("LINK:") +
           chalk.bold.blue("[" + link.text.substr(0, 50) + "]") +
           " " +
           // chalk.inverse.blue("HREF:") +
@@ -64,14 +65,16 @@ mdLinks(pathToFile, options)
         );
       });
     } else if (options.validate === true && options.stats === true) {
+        //este etsa funcionando
         console.log("\n" +
-        chalk.bold.inverse(" TOTAL LINKS: " + links.total + " ") +
+        chalk.bold.inverse.yellow(" TOTAL LINKS: " + links.total + " ") +
         " " +
-        chalk.bold.bgCyan(" UNIQUE LINKS:" + links.unique + " ") +
+        chalk.bold.inverse.blue(" UNIQUE LINKS:" + links.unique + " ") +
         " " +
-        chalk.bold.bgGreen(" OK LINKS: " + links.ok + " ") +
-        " " +
-        chalk.bold.bgRed(" BROKEN LINKS: " + links.broken + " ") + "\n"
+        //este ok links no esta bien
+       // chalk.bold.inverse.green(" OK LINKS: " + links.ok + " ") +
+       // " " +
+        chalk.bold.inverse.red(" BROKEN LINKS: " + links.broken + " ") + "\n"
       );
     } else if (options.validate === true && options.stats === false) {
       links.map(link => {
@@ -108,17 +111,18 @@ mdLinks(pathToFile, options)
         }
       });
     } else if (options.validate === false && options.stats === true) {
+        //esta esta funcionando/////////////////////
         console.log(
-            chalk.bold.inverse("TOTAL LINKS:") +
-            chalk.bold.inverse(links.total) +
+            chalk.bold.inverse.yellow("TOTAL LINKS:") +
+            chalk.bold.inverse.bgBlack(links.total) +
             " " +
-            chalk.bold.bgCyan("UNIQUE LINKS:") +
-            chalk.bold.bgCyan(links.unique) + "\n"
+            chalk.bold.inverse.blue("UNIQUE LINKS:") +
+            chalk.bold.inverse.bgBlack(links.unique) + "\n"
           );
     }
   })
   .catch(err => {
     
     
-    console.log(chalk.bold.red("We found an error: The path or file is not valid. Try again." + "\n"));
+    console.log(chalk.bold.red("Encontramos un error: la ruta o el archivo no es válido. Inténtalo de nuevo." + "\n"));
   });

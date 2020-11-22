@@ -1,8 +1,5 @@
 #!/usr/bin/env node
-//muestra las opciones para el usuario
-// const commander = require('commander');
-// const program = new commander.Command();
-// program.version('0.0.1');
+
 //busca los archivos
 const fs = require("fs");
 const path = require("path");
@@ -10,11 +7,13 @@ const path = require("path");
 const marked = require("marked");
 //para hacer petición url
 //const fetch = require("fetch");
-//const fetchUrl = fetch.fetchUrl;
 const fetch = require("node-fetch");
+const fetchUrl = fetch.fetchUrl;
+
 
 const fileHound = require("fileHound");
 const chalk = require("chalk");
+//const { combineFlagAndOptionalValue } = require("commander");
 
 // let pathToFile = process.argv[2];
 // console.log("PATH:", pathToFile);
@@ -23,6 +22,7 @@ let links = [];
 //let linksOk = [];
 let totalLinks = 0;
 let uniqueLinks = 0;
+let brokenLinks = 0;
 //let brokenLinks = 0;
 // let firstOption = process.argv[3];
 // // console.log("FIRST OP:", firstOption);
@@ -110,44 +110,51 @@ const mdLinks = (path, options) => {
             .then(res => {
               resolve(res);
               console.log(chalk.bold.white("VALIDATE + STATS RESULT:" + "\n"));
+             // console.log("STATS y validate quiero ver", res);
             });
         });
       } else if (options.validate === false && options.stats === true) {
         isFileOrDirectory(path).then(res => {
+          //console.log("muestrame si es file o directory",res)
           statsOption(res).then(res => {
             resolve(res);
             console.log(chalk.bold.white("STATS LINKS RESULT:" + "\n"));
-            //console.log("STATS", res);
+           // console.log("STATS quiero ver", res);
           });
         });
       } else if (options.validate === true && options.stats === false) {
         isFileOrDirectory(path).then(links => {
+          //console.log("dime si es directorio o file", links)
           validateOption(links).then(res => {
             resolve(res);
             console.log(chalk.bold.white("VALIDATE LINKS RESULT:" + "\n"));
-            //console.log("VALIDATE:", res);
+           // console.log("VALIDATE quiero ver:", res);
           });
         });
       } else if (options.validate === false && options.stats === false) {
         isFileOrDirectory(path)
+      //  console.log("es file or directory",path)
           .then(res => {
             resolve(res);
             console.log(chalk.bold.white("LINKS SEARCH RESULT:" + "\n"));
-            //console.log("SIN OPCION:", res);
+           // console.log("SIN OPCION:", res);
           })
           .catch(err => {
             reject(err);
-            console.log("Choose an option: No option | --validate or --v | --stats or --s  | --validate --stats or --v --s");
+            console.log("Elige una opción: Sin opción | --validate or --v | --stats or --s  | --validate --stats or --v --s");
             //console.log("Elija una opción: Ninguna opcion | --validate o --v | --stats o --s  | --validate --stats o --v --s");
           });
- // } else {
-   //     reject(
-   //       err
-   //     );
-      }
+            } else {
+                reject(
+                console.log("ruta no valida")
+              );
+            }
     });
   };
 
+
+
+  
 const isFileOrDirectory = (path) => {
     return new Promise((resolve, reject) => {
         fs.lstat(path, (err, stats) => {
@@ -158,14 +165,14 @@ const isFileOrDirectory = (path) => {
               err
                );
           } else if (stats.isDirectory()) {
-            console.log(chalk.bold("It is a directory"));
-            // return goDirectory(path);
+            //console.log(chalk.bold("It is a directory"));
+             //resolve ( goDirectory(path));
             resolve(goDirectory(path));
           } else {
             resolve(goMdFile(path));
           }
         });
-      })
+      });
     };
     
 // const goDirectory = (path) => {
@@ -196,12 +203,12 @@ const goDirectory = (path) => {
         .find()
         .then(res => (res.forEach(file => {
           if (file.length != 0) {
-            console.log("We have found .md files at: " + file);
+            console.log(" Hemos encontrado archivos .md en: " + file);
             resolve(readMdFile(file));
           }
         })))
         .catch(err => {
-          reject(new Error("Path it is not valid"));
+          reject(new Error("Ruta no es válida"));
         })
     })
   };
@@ -215,7 +222,7 @@ const goMdFile = file => {
     //   console.log(
     //     "El archivo ingresado no es extensión .md, intente otro archivo o directorio"
     //   );
-    console.log(chalk.bgRed("This is not an .md extention file, try another file or directory" + "\n"));
+    console.log(chalk.bgRed("Este no es un archivo de extensión .md, pruebe con otro archivo o directorio" + "\n"));
     }
   };
 
@@ -262,6 +269,8 @@ const goMdFile = file => {
 //     });
 //   };
 //función para leer los archivos .md y verificar si hay links
+//const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm;
+//const singleMatch = /\[([^\[]+)\]\((.*)\)/;
 const readMdFile = file => {
     return new Promise((resolve, reject) => {
         fs.readFile(file, "utf-8", (err, data) => {
@@ -269,30 +278,71 @@ const readMdFile = file => {
             console.log(err);
           } else {
             const renderer = new marked.Renderer();
+            //const primerFiltro = renderer.match(regexMdLinks);
+            //console.log(primerFiltro)
+            
+            // let linkWithImageSizeSupport = /^!?\[((?:\[[^\[\]]*\]|\\[\[\]]?|`[^`]*`|[^\[\]\\])*?)\]\(\s*(<(?:\\[<>]?|[^\s<>\\])*>|(?:\\[()]?|\([^\s\x00-\x1f()\\]*\)|[^\s\x00-\x1f()\\])*?(?:\s+=(?:[\w%]+)?x(?:[\w%]+)?)?)(?:\s+("(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)))?\s*\)/;
+            // marked.InlineLexer.rules.normal.link = linkWithImageSizeSupport;
+            // marked.InlineLexer.rules.gfm.link = linkWithImageSizeSupport;
+            // marked.InlineLexer.rules.breaks.link = linkWithImageSizeSupport;
+            //console.log(renderer);
             renderer.link = function (href, title, text) {
+             // console.log(renderer.links)
+              // href = href.replace(/(\b(http?|https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
               links.push({
                 href: href,
                 file: file,
                 text: text
               });
+              //console.log("el push de los links",links)
             };
             marked(data, {
               renderer: renderer
+              
             });
+            //console.log("muestrame la links", links)
              if (links.length === 0) {
-                console.log(chalk.bold.red("We haven´t found any links at: ") + chalk.red.underline(file));
+                console.log(chalk.bold.red("No hemos encontrado ningún enlace en: ") + chalk.red.underline(file));
             } else {
             //   // console.log("links del archivo:", links.length);
             // validateOption(links);
             // statsOption(links);
             //   // console.log("recebe:", links);
             // }
+           // let dataFile= links
+            //let linkData=dataFile.match(expreRegu);
+           // console.log( "muestrame el resultado de la expresion regular",linkData)
             resolve(links);
+          //  console.log("muestrame el resolve links", links)
+
+
           }}
         });
     })
   };
 
+  //const expreRegu= /(\b(http?|https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+ 
+
+  // const readMdFile=  fs.readFile(pathToFile,'utf8',(error,data)=>{
+  //   if(error) throw error;
+  //   let dataFile=data;
+  //   //console.log(dataFile);
+  //   let linkData=dataFile.match(expreRegu);
+  //   console.log(linkData)
+  
+  // });
+  
+
+  // let dataFile=links;
+  // //console.log(dataFile);
+  // let linkData=dataFile.match(expreRegu);
+  // console.log( "muestrame el resultado de la expresion regular",linkData)
+
+
+
+ 
+//aqui yo ya push a ARRAY links
   //Estadisticas de TOTAL y UNIQUES
 const statsOption = links => {
     return new Promise((resolve, reject) => {
@@ -314,12 +364,13 @@ const validateOption = links => {
       let statusLinks = links.map(link => {
         // links.map(link => {
         return fetch(link.href).then(res => {
-          if (res.status > 299) {
-            link.status = res.status;
-            link.response = "FAIL";
-          } else {
+          if (res.status === 200) {
             link.status = res.status;
             link.response = "O.K.";
+          } else {
+            link.status = res.status;
+            link.response = res.statusText;
+            link.response = "FAIL";
             //console.log("LINK OK:", linksValidate);
           }
         });
@@ -327,6 +378,11 @@ const validateOption = links => {
       Promise.all(statusLinks).then(res => {
         resolve(links);
         //console.log("VALIDATE:", links);
+      }).catch(err => {
+        links.status = null;
+        links.response = "FAIL";
+        resolve(links);
+        //console.log("catch:", links);
       });
     });
   };
@@ -336,24 +392,43 @@ const validateOption = links => {
       validateOption(links).then(link => {
         let allLinks = link.map(link => link.href);
         let statusLinks = links.map(link => link.response);
-        let totalLinks = statusLinks.length;
+        let totalLinks = allLinks.length;
         //console.log("totalLinks:", totalLinks);
-        let uniqueLinks = [...new Set(allLinks)].length;
+       // let uniqueLinks = [...new Set(allLinks)].length;
+       uniqueLinks = [...new Set(allLinks)];
         //console.log("uniqueLinks:", uniqueLinks);
         // let linksOk = statusLinks.toString().match(/OK/g);
         // console.log("linksOk", linksOk);
-        let linksOk = (statusLinks.toString().match(/O.K./g)).length;
-        let brokenLinks = (statusLinks.toString().match(/FAIL/g)).length;
+        //let linksOk = (statusLinks.toString().match(/O.K./g)).length;
+        brokenLinks += (statusLinks.toString().match(/FAIL/g));
         //console.log("linksBroken:", brokenLinks);
         let statsResult = {
           Total: totalLinks,
-          Unique: uniqueLinks,
-          Broken: brokenLinks
+          unique: uniqueLinks.length,
+          broken: brokenLinks.length
         };
+        //console.log("STATS RESULT 2:", statsResult);
+      if (brokenLinks === 0) {
+        statsResult = {
+          total: totalLinks,
+          unique: uniqueLinks.length,
+          broken: 0
+        }
         resolve(statsResult);
         //console.log("STATS RESULT:", statsResult);
+    }else {
+        brokenLinks = (statusLinks.toString().match(/FAIL/g)).length;
+        let statsResult = {
+          total: totalLinks,
+          unique: uniqueLinks.length,
+          broken: brokenLinks
+        }
+        resolve(statsResult);
+        //console.log("STATS RESULT:", statsResult);
+      }
       }).catch(err => {
         reject(err)
+        console.log(chalk.bold.red("OPCIÓN DE ESTADÍSTICAS VALIDADAS CON ERROR. INTÉNTALO DE NUEVO"));
       })
     })
   }
