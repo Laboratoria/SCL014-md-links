@@ -1,79 +1,124 @@
 #!/usr/bin/env node
+const mdLinks = require("./md-links.js");
+//para obtener rutas de archivos
+const path = require("path");
+//pone colores en linea de comando
+const chalk = require("chalk");
 
-// module.exports = () => {
-//   // ...
-// };
-// para obtener rutas de archivo
-const path = require('path')
-// para poner colores en las lineas de comando
-const chalk = require('chalk');
-// para poder leer los archivos y asi verificar que existen
-const fs = require('fs');
-// para crear el servicio
-const http = require('http');
-//este lo isntale para encontrar en el sistema de archivos
-const filehound=require ('filehound');
-//aprendiendo a usar process
-const process= require('process');
-// console.log(process.argv);
-//aqui podrias obtener el valor index de la matriz y saber cual requieres usar
-const args = process.argv; 
-//devuelve una matriz que contiene los argumentos de la línea de comandos pasados cuando
-// se inició el proceso Node.js.  
+let pathToFile = process.argv[2];
 
-console.log("number of arguments is "+args.length); 
-  
-args.forEach((val, index) => { 
-   console.log(`${index}: ${val}`); 
- }); 
+//console.log(chalk.bold.inverse("FILE: ") + chalk.bold.inverse(pathToFile));
+console.log(chalk.bold.inverse.white("\n" +
+  " ---------------------------------------- MD-LINKS RESULT ---------------------------------------- "));
+console.log(chalk.bold.white("Choose an option: ") + chalk.white("No option | --validate or --v | --stats or --s  | --validate --stats or --v --s") + "\n");
 
+console.log(chalk.bold("FILE NAME: ") + chalk(pathToFile));
 
+//transforma ruta absoluta en relativa
+pathToFile = path.resolve(pathToFile);
+pathToFile = path.normalize(pathToFile);
+console.log(chalk.bold("FILE PATH: ") + chalk.white(pathToFile) + "\n");
+//console.log("PATH:", pathToFile);
 
-// // Grab provided arguments
-// const [, sourcePath, ...args] = process.argv;
-// //camino absoluto path.resolve([...caminos])
-// //arregla el camino path.normalize(camino)
+let firstOption = process.argv[3];
+let secondOption = process.argv[4];
 
-// //imprime lo que se escribe en la linea de comando
- //console.log(`Hola por favor ingresa su ruta`)
-// //console.log(`ruta archivo ${sourcePath}`);
+//Let con las opciones para md-links
+let options = {
+  validate: false,
+  stats: false
+};
+if (
+  (firstOption === "--validate" && secondOption === "--stats") ||
+  (firstOption === "--v" && secondOption === "--s") ||
+  (firstOption === "--stats" && secondOption === "--validate") ||
+  (firstOption === "--s" && secondOption === "--v")
+) {
+  options.validate = true;
+  options.stats = true;
+} else if (firstOption === "--validate" || firstOption === "--v") {
+  options.validate = true;
+  options.stats = false;
+} else if (firstOption === "--stats" || firstOption === "--s") {
+  options.validate = false;
+  options.stats = true;
+} else {
+  options.validate = false;
+  options.stats = false;
+}
 
- //console.log(`ruta ${args}`);
-// //console.log(`path ${path}`);
- // //console.log(`bin ${bin}`);
-///////node process-args.js one two=three four
-let script_path = process.argv[1];
-console.log("SCRIPT:", script_path);
-
-
-
-// //saquemos la ruta de usuario al archivo
- let userPathToFile= process.argv[2];
- console.log("PATH:", userPathToFile);
- let firstOption = process.argv[3];
- console.log("FIRST OP:" ,firstOption);
- //let secondOption = process.argv[4];
- //console.log("SECOND OP:" ,secondOption);
-////El path.normalize()método normaliza una ruta especificada.
- //userPathToFile = path.normalize(userPathToFile);
-
-
-//comprobar si existe un archivo o directorio /asincrono
-
-fs.stat('./README.md', function(err) {
-    if (!err) {
-        console.log('file or directory exists');
+mdLinks(pathToFile, options)
+.then(links => {
+    if (options.validate === false && options.stats === false) {
+      links.map(link => {
+        console.log(
+            chalk.bold.inverse.white("FILE:") +
+          chalk.white(link.file) +
+          " " +
+          "\n" +
+          chalk.bold.bgBlue("LINK:") +
+          chalk.bold.blue("[" + link.text.substr(0, 50) + "]") +
+          " " +
+          // chalk.inverse.blue("HREF:") +
+          chalk.underline.blue(link.href)
+        );
+      });
+    } else if (options.validate === true && options.stats === true) {
+        console.log("\n" +
+        chalk.bold.inverse(" TOTAL LINKS: " + links.total + " ") +
+        " " +
+        chalk.bold.bgCyan(" UNIQUE LINKS:" + links.unique + " ") +
+        " " +
+        chalk.bold.bgGreen(" OK LINKS: " + links.ok + " ") +
+        " " +
+        chalk.bold.bgRed(" BROKEN LINKS: " + links.broken + " ") + "\n"
+      );
+    } else if (options.validate === true && options.stats === false) {
+      links.map(link => {
+        if (link.response === "O.K.") {
+            console.log(
+                chalk.bold.inverse("FILE:") +
+                " " +
+                chalk.white(link.file) +
+                " " +
+                "\n" +
+                chalk.bold.bgGreen(" STATUS:" + " " + link.status + " " + link.response + " ") +
+                " " +
+                chalk.bold.green("LINK:") +
+                " " +
+                chalk.bold.green("[" + link.text.substr(0, 50) + "]") +
+                " " +
+                chalk.underline.green(link.href)
+              );
+        } else if (link.response === "FAIL") {
+            console.log(
+                chalk.bold.inverse("FILE:") +
+                " " +
+                chalk.white(link.file) +
+                " " +
+                "\n" +
+                chalk.bold.bgRed(" STATUS:" + " " + link.status + " " + link.response + " ") +
+                " " +
+                chalk.bold.red("LINK:") +
+                " " +
+                chalk.bold.red("[" + link.text.substr(0, 50) + "]") +
+                " " +
+                chalk.underline.red(link.href)
+              );
+        }
+      });
+    } else if (options.validate === false && options.stats === true) {
+        console.log(
+            chalk.bold.inverse("TOTAL LINKS:") +
+            chalk.bold.inverse(links.total) +
+            " " +
+            chalk.bold.bgCyan("UNIQUE LINKS:") +
+            chalk.bold.bgCyan(links.unique) + "\n"
+          );
     }
-    else if (err.code === 'ENOENT') {
-        console.log('file or directory does not exist');
-    }
-});
-
-//encuentrar archivo en el sistema
-const files = filehound.create()
-    .discard("node_modules") //saca la carpeta
-    .paths("./")
-    .ext("md")
-    .find();
-
-files.then(console.log);
+  })
+  .catch(err => {
+    
+    
+    console.log(chalk.bold.red("We found an error: The path or file is not valid. Try again." + "\n"));
+  });

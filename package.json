@@ -2,7 +2,10 @@
   "name": "md-links",
   "version": "0.1.0",
   "description": "* [1. Preámbulo](#1-preámbulo)\r * [2. Resumen del proyecto](#2-resumen-del-proyecto)\r * [3. Objetivos de aprendizaje](#3-objetivos-de-aprendizaje)\r * [4. Consideraciones generales](#4-consideraciones-generales)\r * [5. Criterios de aceptación mínimos del proyecto](#5-criterios-de-aceptación-mínimos-del-proyecto)\r * [6. Entregables](#6-entregables)\r * [7. Hacker edition](#7-hacker-edition)\r * [8. Pistas, tips y lecturas complementarias](#8-pistas-tips-y-lecturas-complementarias)\r * [9. Checklist](#9-checklist)",
-  "main": "index.js",
+  "main": "./index.js",
+  "bin": {
+    "md-links": "./index.js"
+  },
   "directories": {
     "test": "test"
   },
@@ -15,15 +18,16 @@
   },
   "author": "marce ortega",
   "license": "ISC",
-  "bin": {
-    "md-link": "./index.js"
-  },
   "bugs": {
     "url": "https://github.com/marceortega/SCL014-md-links/issues"
   },
   "homepage": "https://github.com/marceortega/SCL014-md-links#readme",
   "dependencies": {
     "chalk": "^4.1.0",
-    "filehound": "^1.17.4"
+    "commander": "^6.2.0",
+    "fetch": "^1.1.0",
+    "filehound": "^1.17.4",
+    "marked": "^1.2.5",
+    "node-fetch": "^2.6.1"
   }
 }
