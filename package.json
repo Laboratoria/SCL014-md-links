@@ -10,6 +10,7 @@
     "node-dir": "^0.1.17",
     "progress": "^2.0.3"
   },
+  "bin":  "index.js",
   "description": "",
   "main": "index.js",
   "directories": {

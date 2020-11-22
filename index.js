@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const mdLinksModule = require("./md-links"); 
+const mdLinks = require('./mdLinks.js'); 
 const chalk = require("chalk");
 const log = console.log;
 const fetch = require('node-fetch');
@@ -71,7 +71,7 @@ const validatePathAndDirectory = (route) => {
       else {
         readFiles(route)
           .then(res => {
-            console.log(res);
+            //console.log(res);
           })
           .catch(err => {
           })
@@ -105,7 +105,7 @@ const gettingLinks = (textFile, file) => {
   }
   marked(textFile, { renderer });
 
- validateLinksAll(arrayLinks)
+ mdLinks(arrayLinks)
 }
 
 
@@ -147,9 +147,6 @@ const validateLinksAll = (validateLinks, stats) => {
        }
       
     }); 
-    statsLinks(validateLinks)
-   
-
 }
 
 // Stats para los links, total y unique.
@@ -160,9 +157,11 @@ const statsLinks = (linksStats) => {
 
   linksStats.forEach(link => {
     hrefNewArray.push(link.href);
+   
   });
   let uniqueLinks = new Set(hrefNewArray);
-brokenLinksAll(linksStats)
+  
+
 
  log(chalk.blue("STATS:") + '\n' + 
      chalk.magentaBright("TOTAL: " + hrefNewArray.length) + '\n' + 
@@ -185,12 +184,9 @@ brokenLinksAll(linksStats)
     let linksBrokenArray = new Set(brokenLinks.map(JSON.stringify));
 
     const arrayForBrokenLinks = Array.from(linksBrokenArray).map(JSON.parse);
-
   
    const filterBrokenLinks = arrayForBrokenLinks.filter(
-     (element) => element.status >= 400
-   )
-    
+     (element) => element.status >= 400)
   
     Promise.all(statsValidateLinks).then((resp) => {
   
@@ -203,5 +199,8 @@ brokenLinksAll(linksStats)
 
 
   module.exports = {
-    validateLinksAll
+    gettingLinks, 
+    validateLinksAll, 
+    brokenLinksAll, 
+    statsLinks, 
   }
