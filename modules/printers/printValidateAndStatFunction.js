@@ -2,7 +2,7 @@ const validateModule = require('../validateFiles/validate-module.js');
 const statsModule = require('../statsFiles/stats-module.js');
 
 module.exports = ((arrayFileMd, argumentOption, pathIn) => {
-    if (argumentOption === " " || argumentOption === {} ) {
+    if (argumentOption === "" || argumentOption === {} || argumentOption === undefined) {
         return statsModule(arrayFileMd, argumentOption, pathIn);
     } 
     else if (argumentOption.stats === true && argumentOption.validate === true) {
