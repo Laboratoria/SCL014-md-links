@@ -14,7 +14,6 @@ const optionIn = () => {
     };
 };
 const argument = optionIn();
-console.log(argument);
 
 mdLinks(pathIn, argument)
     .catch(() => console.log('Ha ocurrido un error'));
