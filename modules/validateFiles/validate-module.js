@@ -16,9 +16,9 @@ module.exports = (arrayMdContent, option, pathgive) => {
                 };
             });
     })
-    Promise.all(validateObj).then(resp => {
+    return Promise.all(validateObj).then(resp => {
         statsModule(resp, option, pathgive);
-
+        return resp; 
     }).catch(reason => {
         console.log('Error: ' + reason);
     });

@@ -19,6 +19,5 @@ module.exports = (objectLinksValidate, option, pathGive) => {
         unique: arrayWithoutDuplicate,
         broken: arrayBrokenLinks
     };
-    printModule(arrayReturn, option, pathGive);
-    return  arrayObjectLinks;   
+    printModule(arrayReturn, option, pathGive);    
 };

@@ -5,14 +5,14 @@ module.exports = (objectLinks, option, pathGive) => {
 
     const arrayObjectLinks = objectLinks;
     // Stringify object 
-    const arrayObjectLinkString = new Set(arrayObjectLinks.map( obj =>JSON.stringify(obj)));
+    const arrayObjectLinkString = new Set(arrayObjectLinks.map(obj => JSON.stringify(obj)));
     // Array Without Duplicate
-    const arrayWithoutDuplicate = Array.from(arrayObjectLinkString).map(obj =>JSON.parse(obj));
-    
+    const arrayWithoutDuplicate = Array.from(arrayObjectLinkString).map(obj => JSON.parse(obj));
+
     const arrayReturn = {
         total: arrayObjectLinks,
-        unique:arrayWithoutDuplicate
+        unique: arrayWithoutDuplicate
     };
     printModule(arrayReturn, option, pathGive);
-  
+    return arrayObjectLinks;
 };
