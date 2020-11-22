@@ -4,6 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 const fetch = require("fetch");
+const { on } = require('process');
 const fetchUrl = fetch.fetchUrl;
 
 
@@ -36,24 +37,66 @@ const filePath = pathTransform(routeConsole);
 const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm;
 const singleMatch = /\[([^\[]+)\]\((.*)\)/;
 
+// Promise to get HTTP STATUS
+
+const getHttpStatus = (url) => {
+    return new Promise((resolve, reject) => {
+        fetchUrl(url, (error, meta, body) => {
+            if (error) {
+                reject(error)
+            } else {
+                resolve(meta.status);
+            }
+        });
+    })
+};
+
+
+
 // Function to get Links, text and path from File. It will be called in Promise ReadFile
 
 const links = (file, route) => {
     let arrayofRegEx = file.match(regexMdLinks);
-    const onlyInfoLinks= [];
+    const onlyInfoLinks = [];
     arrayofRegEx.forEach((line) => {
         let lineLink = line.match(singleMatch);
         let http = lineLink[2].includes('http');
         //  console.log(http);
         if (http) {
-            onlyInfoLinks.push({ href: lineLink[2], text: lineLink[1], path: route })
+            onlyInfoLinks.push({ href: lineLink[2], text: lineLink[1], path: route });
         }
-
     });
-    
-    //    console.log(onlyInfoLinks);
+    let total = onlyInfoLinks.length;
+    // console.log(total);
+    onlyInfoLinks.map((line) => {
+        let url = line.href;
+        let text = line.text;
+        let file = line.path;
+        // let total = onlyInfoLinks.length;
+        // console.log(file + " " + url + " " + text);
+        if (optionsConsole === '--validate') {
+            getHttpStatus(url)
+                .then(res => {
+                    console.log('El estado de', url, 'es:', res)
+                })
+                .catch(err => {
+                    console.log(err.path)
+                });
+        } if( optionsConsole === '--stats'){
+            total : total;
+            // let total = onlyInfoLinks.length;
+            console.log(total);
+        } 
+        else {
+            return console.log((` File: ${file} \n Link: ${url}   \n Text: ${text}`))
+            // console.log(`File`file + " " + url + " " + text);
+        };
+    });
     return onlyInfoLinks;
 };
+
+
+
 
 
 
@@ -71,14 +114,21 @@ const readFilefromPath = (fileName, encoding) => {
     });
 };
 
+// 
+
+// const urlToValidate = (array) =>{
+//     for (let url in array){
+//         if(array[i])
+//     }
+// }
+
 
 // Function to validate the extension of the file and apply the promise ReadFile
 const fileExtension = (route) => {
     if (path.extname(route) === '.md') {
         readFilefromPath(route, 'utf-8')
             .then(res => {
-                const objectWithInfo =res;
-                console.log(objectWithInfo);
+                // console.log(res);
 
             })
             .catch(err => {
