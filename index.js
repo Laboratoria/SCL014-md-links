@@ -3,8 +3,6 @@ let fs = require('fs');
 
 
 //este es el path que te pasa el usuario
-
-
 const filePathmd = process.argv[2]
 //si la ruta es relativa lo pasa a absoluta
 const route = (filePathmd) => {
@@ -46,11 +44,6 @@ if (process.argv.includes('--stats')) {
     stats = true;
 };
 
-
-console.log("lo que le paso a mdlink es ")
-console.log(mdFileArray)
-console.log(validate)
-console.log(stats)
 mdlinks(mdFileArray, validate, stats);
 
 

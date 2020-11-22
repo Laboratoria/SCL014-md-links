@@ -1,11 +1,30 @@
 {
-  "name": "md-links",
+  "name": "md-links-solex",
   "version": "0.1.0",
   "dependencies": {
     "axios": "^0.21.0",
+    "fetch": "^1.1.0",
     "jsdom": "^16.4.0",
     "markdown-it": "^12.0.2"
   },
   "author": "sol marina parra",
-  "license": "ISC"
+  "license": "ISC",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SolMarina/SCL014-md-links.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/SolMarina/SCL014-md-links/issues"
+  },
+  "homepage": "https://github.com/SolMarina/SCL014-md-links#readme"
 }
