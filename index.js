@@ -7,6 +7,7 @@ const fetch = require("fetch");
 // const { on } = require('process');
 const fetchUrl = fetch.fetchUrl;
 const colors = require('colors');
+const { resolve } = require('path');
 
 
 
@@ -52,6 +53,16 @@ const getHttpStatus = (url) => {
     })
 };
 
+const getStatsHTTP = (array) => {
+    return new Promise ((resolve, reject) => {
+        for (let index = 0; index < array.length; index++) {
+            const total = array[index.length];
+            console.log(total);
+            
+            
+        }
+    })
+}
 
 
 // Function to get Links, text and path from File. It will be called in Promise ReadFile
@@ -62,44 +73,12 @@ const links = (file, route) => {
     arrayofRegEx.forEach((line) => {
         let lineLink = line.match(singleMatch);
         let http = lineLink[2].includes('http');
-        //  console.log(http);
         if (http) {
             onlyInfoLinks.push({ href: lineLink[2], text: lineLink[1], path: route });
         }
     });
-    // let total = onlyInfoLinks.length;
-    // // console.log(total);
-    // onlyInfoLinks.map((line) => {
-    //     let url = line.href;
-    //     let text = line.text;
-    //     let file = line.path;
-    //     // let total = onlyInfoLinks.length;
-    //     // console.log(file + " " + url + " " + text);
-    //     if (optionsConsole === '--validate') {
-    //         getHttpStatus(url)
-    //             .then(res => {
-    //                 console.log (` El estado de  ${url.blue}  es ${res}`)
-    //                 // ('El estado de', url.blue, 'es:', res.black)
-    //             })
-    //             .catch(err => {
-    //                 console.log(err.path)
-    //             });
-    //     } else if( optionsConsole === '--stats'){
-    //         total : total;
-    //         // let total = onlyInfoLinks.length;
-    //         console.log(total);
-    //     } 
-    //     else {
-    //         return console.log((` File: ${file.green} \n Link: ${url.yellow}   \n Text: ${text.white}`));
-    //     };
-    // });
     return onlyInfoLinks;
 };
-
-
-
-
-
 
 // Function with Promise to read File, and to later apply it in fileExtension Function
 
@@ -126,27 +105,24 @@ const fileExtension = (route) => {
                     let url = line.href;
                     let text = line.text;
                     let file = line.path;
-                    // let total = onlyInfoLinks.length;
                     // console.log(file + " " + url + " " + text);
-                    if (optionsConsole === '--validate') {
+                    if (optionsConsole === '--validate' || optionsConsole === '--v') {
                         getHttpStatus(url)
                             .then(res => {
-                                console.log (` El estado de  ${url.blue}  es ${res}`)
+                                console.log (` El estado de  ${url.magenta}  es ${res}`)
                                 // ('El estado de', url.blue, 'es:', res.black)
                             })
                             .catch(err => {
                                 console.log(err.path)
                             });
-                    } else if( optionsConsole === '--stats'){
-                        // total : total;
-                        // let total = onlyInfoLinks.length;
-                        console.log(total);
+                    } else if ( optionsConsole === '--stats' || optionsConsole === '--s'){
+                        let total = onlyInfoLinks.length;
+                        console.log('El total de Links en el documento son' + total);
                     } 
                     else {
                         return console.log((` File: ${file.green} \n Link: ${url.yellow}   \n Text: ${text.white}`));
                     };
                 });
-
             })
             .catch(err => {
                 console.log(err);
