@@ -9,15 +9,13 @@ const path = require('path');
 let pathC = process.argv[2];
 pathC = path.normalize(path.resolve(pathC));
 
-//const validateLinks = require("./md-links");
-
-// lee archivos en directorio, muestra array con archivos existentes dentro y los que tienen extension ".md"
+// Función que muestra archivos que se encuentran dentro del directorio.
 
 const readDir = (__dirname => {
   return new Promise((resolve, reject) => {
     fs.readdir(__dirname, (err, subdirs) => {
       if (err) {
-        reject(console.log(err, "El directorio esta vacio"))
+        reject(console.log(err, "El directorio esta vacío"))
       }
       resolve(subdirs);
 
@@ -29,7 +27,7 @@ const readDir = (__dirname => {
               console.log(res);
             })
             .catch(err => {
-              console.log("Este no es un archivo Markdown, ingresa un archivo con extension .md");
+              console.log("Este no es un archivo Markdown, ingresa un archivo con extensión .md");
             })
 
         }
@@ -38,10 +36,9 @@ const readDir = (__dirname => {
     })
   })
 });
-//readDir(__dirname);
 
 
-// Funcion que lee archivos de extension ".md"
+// Función que lee archivos con extensión ".md"
 
 const readFiles = (pathFile) => {
   return new Promise((resolve, reject) => {
@@ -54,9 +51,9 @@ const readFiles = (pathFile) => {
   })
 }
 
-// readFiles(path)
 
-// Funcion principal que confirma existencia de ruta y directorio
+// Función principal que confirma existencia de ruta y directorio
+
 const validatePathAndDirectory = (route) => {
 
   if (fs.existsSync(route)) {
@@ -82,17 +79,17 @@ const validatePathAndDirectory = (route) => {
     } catch (e) {
       if (e.code == 'ENOENT') {
       } else {
-        //do something else
       }
     }
   } else {
-    console.log("Ingresa una ruta valida")
+    console.log("Ingresa una ruta válida")
   }
 }
 
 validatePathAndDirectory(pathC)
 
-// Funcion que extrae links, texto y rutas de archivos con extension "md"
+
+// Función que extrae links, texto y rutas de archivos con extensión "md"
 
 const gettingLinks = (textFile, file) => {
 
@@ -103,18 +100,16 @@ const gettingLinks = (textFile, file) => {
   renderer.link = (href, title, text) => {
 
     if (!href.startsWith('#')) {
-      arrayLinks.push({ href, text: text.slice(0, 50), file });
-      // console.log(arrayLinks)   
+      arrayLinks.push({ href, text: text.slice(0, 50), file });  
     }
   }
   marked(textFile, { renderer });
 
-  //return arrayLinks;
  validateLinksAll(arrayLinks)
 }
 
 
-// Funcion que valida los links extraidos y retorna el status en numero y texto 
+// Función que valida los links extraidos y retorna el status en numero y texto 
 
 const validateLinksAll = (validateLinks, stats) => {
   const linksValidateWithFetch = validateLinks.map((element) => {
@@ -141,7 +136,11 @@ const validateLinksAll = (validateLinks, stats) => {
       } else {
       resp.forEach(element => {
 
-       log(chalk.green(element.file) + " " + chalk.cyan(element.href) + " " + chalk.yellow(element.status) + " " + chalk.magenta(element.statusText) + " " + chalk.white(element.text));
+       log(chalk.green(element.file) + " " + 
+           chalk.cyan(element.href) + " " + 
+           chalk.yellow(element.status) + " " + 
+           chalk.magenta(element.statusText) + " " + 
+           chalk.white(element.text));
       
       });
   
@@ -153,6 +152,8 @@ const validateLinksAll = (validateLinks, stats) => {
 
 }
 
+// Stats para los links, total y unique.
+
 const statsLinks = (linksStats) => {
 
   let hrefNewArray = [];
@@ -161,10 +162,43 @@ const statsLinks = (linksStats) => {
     hrefNewArray.push(link.href);
   });
   let uniqueLinks = new Set(hrefNewArray);
+brokenLinksAll(linksStats)
+
+ log(chalk.blue("STATS:") + '\n' + 
+     chalk.magentaBright("TOTAL: " + hrefNewArray.length) + '\n' + 
+     chalk.green("UNIQUE: " + uniqueLinks.size))
+
+  }
 
 
- log(chalk.blue("STATS:") + '\n' + chalk.magentaBright("TOTAL: " + hrefNewArray.length) + '\n' + chalk.green("UNIQUE: " + uniqueLinks.size))
+// Enlaces rotos, muestra el total, unique y broken.
 
+  const brokenLinksAll = (statsValidateLinks) => {
+
+    let brokenLinks = [];
+  
+    statsValidateLinks.map(element => {
+      brokenLinks.push(element.href);
+  
+    });
+  
+    let linksBrokenArray = new Set(brokenLinks.map(JSON.stringify));
+
+    const arrayForBrokenLinks = Array.from(linksBrokenArray).map(JSON.parse);
+
+  
+   const filterBrokenLinks = arrayForBrokenLinks.filter(
+     (element) => element.status >= 400
+   )
+    
+  
+    Promise.all(statsValidateLinks).then((resp) => {
+  
+      log(chalk.blue("STATS AND VALIDATE:") + '\n' + 
+          chalk.magentaBright("TOTAL: " + brokenLinks.length) + '\n' + 
+          chalk.green("UNIQUE: " + linksBrokenArray.size) + '\n' + 
+          chalk.red("BROKEN: " + filterBrokenLinks.length))
+    });
   }
 
 
