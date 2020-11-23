@@ -11,5 +11,5 @@ module.exports = ((arrayFileMd, argumentOption, pathIn) => {
     else if (argumentOption.stats === true) {
         return statsModule(arrayFileMd, argumentOption, pathIn);
     }
-
+    return arrayFileMd;
 });

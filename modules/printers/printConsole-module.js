@@ -1,6 +1,7 @@
 module.exports = (arrayResp, option, pathgive) => {
     const arrayObjects = arrayResp
-    // Print module validate
+    
+    // Print module validate &  stats
     if (option.validate === true && option.stats === true) {
         const countBroken = arrayObjects.total.filter(link => {
             return link.status === 404;
@@ -10,6 +11,7 @@ module.exports = (arrayResp, option, pathgive) => {
         console.log('Unique: ' + arrayObjects.unique.length);
         console.log('Broken: ' + countBroken.length);
     }
+    // Print module validate
     else if (option.validate === true) {
         console.log('YOU HAVE EXECUTED MODULE --VALIDATE AT ' + arrayObjects.total[0].file);
         arrayObjects.total.forEach(link => {
@@ -29,6 +31,5 @@ module.exports = (arrayResp, option, pathgive) => {
         console.log('Total: ' + arrayObjects.total.length);
         console.log('Unique: ' + arrayObjects.unique.length);
 
-    } // Print module validate &  stats
-
+    } 
 };
