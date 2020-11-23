@@ -1,6 +1,9 @@
 {
   "name": "md-links-solex",
-  "version": "0.1.0",
+  "version": "0.2.0",
+  "bin": {
+    "md-links-solex": "./index.js"
+  },
   "dependencies": {
     "fetch": "^1.1.0",
     "jsdom": "^16.4.0",
@@ -8,7 +11,7 @@
   },
   "author": "sol marina parra",
   "license": "ISC",
-  "description": "",
+  "description": "Libreria para encontrar links y realizar estadisticas, para archivos formato Markdown",
   "main": "index.js",
   "directories": {
     "test": "test"

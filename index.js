@@ -1,5 +1,7 @@
+#!/usr/bin/env node
 let mdlinks = require('./mdlinks');
 let fs = require('fs');
+
 
 
 //este es el path que te pasa el usuario

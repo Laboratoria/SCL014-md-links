@@ -13,10 +13,10 @@ Puedes ejecutar esta librería de la siguiente manera :
 
 2- Ejecuta el siguiente comando :
 
-node index archivo.md --validate --stats
+md-links-solex README.md --validate --stats
 
 ejemplo :
 
-`--node index README.md --validate --stats`
+`md-links-solex README.md --validate --stats`
 3- Presiona enter y en tu CLI aparecerá una lista de todos los links encontrados, junto con el status,si esta activo o no, nombre del enlace, ruta del archivo donde se encontró, y estadísticas de cuantos links se encontraron en total, cuantos son hábiles y cuantos no.
 
