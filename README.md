@@ -3,10 +3,10 @@
 ## Índice
 
 * [1. Preámbulo](#1-preámbulo)
-* [2. Resumen del proyecto](#2-Md-Links)
-* [3. Objetivos de aprendizaje](#3-Guía-de-Uso-e-Instalación)
-* [4. Consideraciones generales](#4-Documentación-Técnica)
-* [5. Criterios de aceptación mínimos del proyecto](#5-Planificación)
+* [2. Md-Links](#2-Md-Links)
+* [3. Guía de Uso e Instalación](#3-Guía-de-Uso-e-Instalación)
+* [4. Documentacion Técnica](#4-Documentación-Técnica)
+* [5. Planificación](#5-Planificación)
 
 ***
 
