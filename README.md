@@ -78,9 +78,21 @@ las siguientes propiedades:
 ```js
 const mdLinks = require("md-links");
 
+mdLinks("./some/example.md")
+  .then(links => {
+    // => [{ href, text, file }]
+  })
+  .catch(console.error);
+
 mdLinks("./some/example.md", { validate: true })
   .then(links => {
     // => [{ href, text, file, status, ok }]
+  })
+  .catch(console.error);
+
+mdLinks("./some/dir")
+  .then(links => {
+    // => [{ href, text, file }]
   })
   .catch(console.error);
 
@@ -134,7 +146,7 @@ Broken: 1
 
 ![Flujo ](./assets/images/flujo.png)
 
-* Este proyecto se puede "resolver" de manera individual o en duplas.
+* Este proyecto se realizó de manera individual.
 
 * La librería y script ejecutable (herramienta de línea de comando -
   CLI) debe estar implementada en JavaScript para ser ejecutada con
@@ -148,7 +160,7 @@ Broken: 1
 
 ### `README.md`
 
-* [ ] Un board con el backlog para la implementación de la librería.
+* [&check] Un board con el backlog para la implementación de la librería.
 * [ ] Documentación técnica de la librería.
 * [ ] Guía de uso e instalación de la librería
 
