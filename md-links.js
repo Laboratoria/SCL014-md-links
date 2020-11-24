@@ -9,7 +9,7 @@ const marked = require("marked");
 //const fetch = require("fetch");
 const fetch = require("node-fetch");
 const fetchUrl = fetch.fetchUrl;
-
+//const http = require('http');
 
 const fileHound = require("fileHound");
 const chalk = require("chalk");
@@ -123,9 +123,9 @@ const mdLinks = (path, options) => {
           });
         });
       } else if (options.validate === true && options.stats === false) {
-        isFileOrDirectory(path).then(links => {
+        isFileOrDirectory(path).then(res => {
           //console.log("dime si es directorio o file", links)
-          validateOption(links).then(res => {
+          validateOption(res).then(res => {
             resolve(res);
             console.log(chalk.bold.white("VALIDATE LINKS RESULT:" + "\n"));
            // console.log("VALIDATE quiero ver:", res);
@@ -289,6 +289,8 @@ const readMdFile = file => {
             renderer.link = function (href, title, text) {
              // console.log(renderer.links)
               // href = href.replace(/(\b(http?|https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
+             // href=href.includes(http);
+
               links.push({
                 href: href,
                 file: file,
@@ -358,7 +360,7 @@ const statsOption = links => {
   };
 
   //Validar los links con sus status
-const validateOption = links => {
+    const validateOption = links => {
     //console.log("LINKS:", links);
     return new Promise((resolve, reject) => {
       let statusLinks = links.map(link => {
@@ -370,7 +372,7 @@ const validateOption = links => {
           } else {
             link.status = res.status;
             link.response = res.statusText;
-            link.response = "FAIL";
+            //link.response = "FAIL";
             //console.log("LINK OK:", linksValidate);
           }
         });
@@ -386,6 +388,41 @@ const validateOption = links => {
       });
     });
   };
+
+  // //Validar los links con sus status
+  // const validateOption = (links) => {
+  //   //console.log("LINKS:", links);
+  //   return new Promise((resolve, reject) => {
+  //     fetchUrl(links,(error,meta,body)=>{
+  //       if(error){
+  //         reject(error);
+  //       }else{
+  //         if(meta.status==404){
+  //           resolve(meta.status)
+  //         }
+  //       }
+  //     });
+  //   });
+  //   }
+  //   const getStatusFromArray=(urlArray)=>{
+  //     let statusCounter=0;
+  //     for(let i=0; i<urlArray.length;i++){
+  //       validateOption (urlArray[i])
+  //       .then(res=>{
+  //         if(res===404){
+  //           statusCounter +=1;
+  //         }
+  //       })
+  //     }
+  //     console.log("la cantidad de 200 es :" ,statusCounter)
+  //   }
+  //   getStatusFromArray(links)
+
+  //     Promise.all(links.map (url=> validateOption(url)
+  //     .catch(err=>"broken")))
+  //     .then(results=>console.log("la cantidad correcat de 200 es ", results.length));
+
+      
 
   const statsValidateOption = (links) => {
     return new Promise((resolve, reject) => {
