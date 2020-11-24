@@ -1,4 +1,33 @@
 {
-  "name": "md-links",
-  "version": "0.1.0"
+  "name": "md-links-marceortega",
+  "version": "0.2.0",
+  "description": "Esta libreria permite analizar archivos con extensión MD.Analiza el contenido y extrae los links que contiene el archivo, además muestra el estado de los links, permitiendo al usuario saber si son unicos, o estan errados.",
+  "main": "./index.js",
+  "bin": {
+    "md-links": "./index.js"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marceortega/SCL014-md-links.git"
+  },
+  "author": "marce ortega",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marceortega/SCL014-md-links/issues"
+  },
+  "homepage": "https://github.com/marceortega/SCL014-md-links#readme",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "commander": "^6.2.0",
+    "fetch": "^1.1.0",
+    "filehound": "^1.17.4",
+    "marked": "^1.2.5",
+    "node-fetch": "^2.6.1"
+  }
 }
